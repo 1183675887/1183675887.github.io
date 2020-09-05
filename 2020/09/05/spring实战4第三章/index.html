@@ -6,17 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://example.com">
-  <title>Archives: 2020/9 | Hexo</title>
+  <title>spring实战4第三章 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="个人博客">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://example.com/archives/2020/09/index.html">
+  <meta name="description" content="[TOC] 第三章，高级装配">
+<meta property="og:type" content="article">
+<meta property="og:title" content="spring实战4第三章">
+<meta property="og:url" content="http://example.com/2020/09/05/spring%E5%AE%9E%E6%88%984%E7%AC%AC%E4%B8%89%E7%AB%A0/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="个人博客">
+<meta property="og:description" content="[TOC] 第三章，高级装配">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-09-05T07:31:04.000Z">
+<meta property="article:modified_time" content="2020-09-05T10:01:19.925Z">
 <meta property="article:author" content="renzhicheng">
-<meta property="article:tag" content="后端博客">
+<meta property="article:tag" content="spring">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
@@ -134,36 +136,166 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
+            <article id="post-spring实战4第三章" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
   
+    <h1 class="article-title" itemprop="name">
+      spring实战4第三章
+    </h1>
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/09/05/spring%E5%AE%9E%E6%88%984%E7%AC%AC%E4%B8%89%E7%AB%A0/" class="archive-article-date">
+
+        
+        <a href="/2020/09/05/spring%E5%AE%9E%E6%88%984%E7%AC%AC%E4%B8%89%E7%AB%A0/" class="archive-article-date">
   	<time datetime="2020-09-05T07:31:04.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-09-05</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/09/05/spring%E5%AE%9E%E6%88%984%E7%AC%AC%E4%B8%89%E7%AB%A0/">spring实战4第三章</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>[TOC]</p>
+<h2 id="第三章，高级装配"><a href="#第三章，高级装配" class="headerlink" title="第三章，高级装配"></a>第三章，高级装配</h2><a id="more"></a>
 
-        <div class="article-info info-on-right">
-          
+<h3 id="3-0-各种注解"><a href="#3-0-各种注解" class="headerlink" title="3.0.各种注解"></a>3.0.各种注解</h3><h4 id="1-profile"><a href="#1-profile" class="headerlink" title="1.@profile"></a>1.@profile</h4><p>@profile注解，在java配置中可以指定某个bean属于哪一个profile。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@profile</span>（<span class="string">&quot;dev&quot;</span>）   <span class="comment">//只有dev profile激活的时候，才会创建对应的bean</span></span><br><span class="line"><span class="function"><span class="keyword">public</span>   DataSource   <span class="title">dataSource</span><span class="params">()</span></span>&#123;--&#125;    <span class="comment">//DataSoure的bean</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="2-Conditional"><a href="#2-Conditional" class="headerlink" title="2.@Conditional"></a>2.@Conditional</h4><p>@Conditional注解，它可以用在带有@bean注解的方法上，如果给点的条件为true，就创建，否则忽视这个bean。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@bean</span><br><span class="line">@Conditional(MagicExistsCondition.class)           &#x2F;&#x2F;在xx.class中找matches方法的某个属性是否存在。</span><br><span class="line"> public MagicBean  magicBean()&#123;                        &#x2F;&#x2F;有则创建bean。</span><br><span class="line">   return  new   MagicBean();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-Primary"><a href="#3-Primary" class="headerlink" title="3.@Primary"></a>3.@Primary</h4><p>@Primary注解，标志首选的bean，避免自动装配歧义性，与@compoent组合用在组件扫描的bean上，<br>也可以与@bean组合用在java配置的bean声明中。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">例子<span class="number">1</span>：    <span class="meta">@Compoent</span></span><br><span class="line">          <span class="meta">@Primary</span></span><br><span class="line">          <span class="keyword">public</span>  <span class="class"><span class="keyword">class</span>   <span class="title">IceCream</span>  <span class="keyword">implements</span>  <span class="title">Dessert</span></span>&#123;---&#125;</span><br><span class="line"></span><br><span class="line">例子<span class="number">2</span>：   <span class="meta">@bean</span></span><br><span class="line">         <span class="meta">@Primary</span></span><br><span class="line">         <span class="function"><span class="keyword">public</span>   Dessert   <span class="title">iceCream</span><span class="params">()</span></span>&#123;---&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="4-Qualifier"><a href="#4-Qualifier" class="headerlink" title="4.@Qualifier"></a>4.@Qualifier</h4><p>@Qualifier注解，是使用限定符的主要方式。可以与@Autowired和@Inject协同使用。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Autowired</span></span><br><span class="line"><span class="meta">@Qualifier(&quot;iceCream&quot;)</span>                            <span class="comment">//将IceCream类bean注入到setDessert（）中</span></span><br><span class="line"><span class="function"><span class="keyword">public</span>   <span class="keyword">void</span>   <span class="title">setDessert</span><span class="params">(Dessert   dessert)</span>    </span>&#123;---&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="5-Scope"><a href="#5-Scope" class="headerlink" title="5.@Scope"></a>5.@Scope</h4><p>单例是默认的作用域，对于易变的类，如果选择其他的作用域，要使用@Scope注解，<br>可以与@Component或@bean一起使用。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="meta">@Scope(ConfigureableBeanFactory.SCOPE_PROTOTYPE)</span>    <span class="comment">//常量</span></span><br><span class="line"><span class="function"><span class="keyword">public</span>  class   <span class="title">Notepad</span><span class="params">(---)</span>                        <span class="comment">//将Notepad声明为原型bean</span></span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="3-1-环境与profile"><a href="#3-1-环境与profile" class="headerlink" title="3.1.环境与profile"></a>3.1.环境与profile</h3><p>在开发软件的时候，需要从一个环境迁移到另一个环境。因此可以在同一个部署环境中配置各种bean在特地的机会用到。</p>
+<h4 id="3-1-1-配置profile-bean"><a href="#3-1-1-配置profile-bean" class="headerlink" title="3.1.1.配置profile bean"></a>3.1.1.配置profile bean</h4><p>要使用profile，要将所有的bean定义整理到一个或多个profile中，在使用时也要确保对应的profile处于激活状态。</p>
+<p>在java配置中，可以使用@Profile注解在类上指定某个bean属于哪一个profile。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@profile</span>（<span class="string">&quot;dev&quot;</span>）   <span class="comment">//只有dev profile激活的时候，才会创建对应的bean</span></span><br><span class="line"><span class="function"><span class="keyword">public</span>   DataSource   <span class="title">dataSource</span><span class="params">()</span></span>&#123;--&#125;    <span class="comment">//DataSoure的bean</span></span><br></pre></td></tr></table></figure>
+
+<p>@profile注解可以与@bean注解一起使用在方法上，就能将这两个bean的声明放在同一个配置类中。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@bean</span>                                    <span class="comment">//为dev profile装配的bean</span></span><br><span class="line"><span class="meta">@proflie(&quot;dev&quot;）</span></span><br><span class="line"><span class="meta">public  DataSoure embeddedDataSoure()&#123;--&#125;</span></span><br><span class="line"><span class="meta"></span></span><br></pre></td></tr></table></figure>
+
+<p>也可以通过<beans>元素的profile属性在XML中配置profile bean。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">------------</span></span></span><br><span class="line"><span class="tag">     <span class="attr">profile</span>=<span class="string">&quot;dev&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">jdbd-----</span>&gt;</span>        //指定数据库等</span><br><span class="line"> <span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>可以在<beans>元素中嵌套定义<beans>元素，而不是为每个环境都创建一个profile XML文件。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">beans---</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">beans</span> <span class="attr">profile</span>=<span class="string">&quot;dev&quot;</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">jdbc-------</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">beans</span> <span class="attr">profile</span>=<span class="string">&quot;qa&quot;</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">-----</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="3-1-2-激活profile"><a href="#3-1-2-激活profile" class="headerlink" title="3.1.2.激活profile"></a>3.1.2.激活profile</h4><p>确定那个profile处于激活，需要依赖两个独立的属性。</p>
+<p>1.spring.profile.active：确定那个profile是激活的。</p>
+<p>2.spring.profile.default：在active属性没设置时替代active来确定。</p>
+<p>有多种方式来设置这两个属性：</p>
+<p>1.作为DispatcherServlet的初始化参数。</p>
+<p>2.作为Web应用的上下文参数。</p>
+<p>3.作为JNDI条目。</p>
+<p>4.作为环境变量。</p>
+<p>5.作为JVM的系统属性。</p>
+<p>6.在集成测试类上，使用@ActiveProfiles注解设置。</p>
+<p>例如将default设置为开发环境的profile。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">context-param</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">param-name</span>&gt;</span>spring.profiles.default<span class="tag">&lt;/<span class="name">param-name</span>&gt;</span>      //为上下文设置默认的profile</span><br><span class="line">   <span class="tag">&lt;<span class="name">param-value</span>&gt;</span>dev<span class="tag">&lt;/<span class="name">param-value</span>&gt;</span>              //dev为默认的profile</span><br><span class="line">   <span class="tag">&lt;/<span class="name">context-param</span>&gt;</span>  </span><br><span class="line">        -----------</span><br><span class="line">     <span class="tag">&lt;<span class="name">servlet</span>&gt;</span>--</span><br><span class="line">        <span class="tag">&lt;<span class="name">param-name</span>&gt;</span>spring.profiles.default<span class="tag">&lt;/<span class="name">param-name</span>&gt;</span>      //为servlet设置默认的profile</span><br><span class="line">         <span class="tag">&lt;<span class="name">param-value</span>&gt;</span>dev<span class="tag">&lt;/<span class="name">param-value</span>&gt;</span>                   //dev为默认的profile</span><br><span class="line">           <span class="tag">&lt;/<span class="name">servlet</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>在测试时，使用@ActiveProfile注解来指定运行测试时要激活哪个profile。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@AutiveProfiles(&quot;dev&quot;)</span>              <span class="comment">//激活dev</span></span><br><span class="line"> <span class="function"><span class="keyword">public</span>   class   <span class="title">persistenTest</span><span class="params">()</span></span>&#123;--&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-2-条件化的bean"><a href="#3-2-条件化的bean" class="headerlink" title="3.2.条件化的bean"></a>3.2.条件化的bean</h3><p>有时希望bean在特地的路径下包含特定库才会创建，或者其他条件，@Conditional注解可以实现这种级别的条件化配置，它可以用在带有@bean注解的方法上，如果给点的条件为true，就创建，否则忽视这个bean。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@bean</span></span><br><span class="line"><span class="meta">@Conditional(MagicExistsCondition.class)</span>           <span class="comment">//在xx.class中找matches方法的某个属性是否存在。</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> MagicBean  <span class="title">magicBean</span><span class="params">()</span></span>&#123;                        <span class="comment">//有则创建bean。</span></span><br><span class="line">    <span class="keyword">return</span>  <span class="keyword">new</span>   MagicBean();</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<p>@profile可以还可以基于@Conditional和condition实现。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Conditional(profileCondition.class)</span></span><br><span class="line"><span class="keyword">public</span>  <span class="meta">@interface</span>   profile&#123;--&#125;    </span><br></pre></td></tr></table></figure>
+
+<h3 id="3-3-处理自动装配的歧义性"><a href="#3-3-处理自动装配的歧义性" class="headerlink" title="3.3.处理自动装配的歧义性"></a>3.3.处理自动装配的歧义性</h3><p>如果方法中有多种参数时，接口对应的不止一种，此时就会出现歧义，这时候就需要将可选bean的某一个设为首选（primary）的bean，或者使用限定符（qualifier）来帮助Spring将可选的bean的范围缩小到只有一个bean。</p>
+<h4 id="3-1-1-标志首选的bean"><a href="#3-1-1-标志首选的bean" class="headerlink" title="3.1.1.标志首选的bean"></a>3.1.1.标志首选的bean</h4><p>在spring中，可以通过@Primary来表达最喜欢的方案，@Primary与@compoent组合用在组件扫描的bean上</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Compoent</span></span><br><span class="line"><span class="meta">@Primary</span>           <span class="comment">//将@Component注解的IceCream bean声明为首选的bean</span></span><br><span class="line"> <span class="keyword">public</span>  <span class="class"><span class="keyword">class</span>   <span class="title">IceCream</span>  <span class="keyword">implements</span>  <span class="title">Dessert</span></span>&#123;---&#125;</span><br></pre></td></tr></table></figure>
+
+<p>也可以与@bean组合用在java配置的bean声明中。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@bean</span></span><br><span class="line"><span class="meta">@Primary</span>       </span><br><span class="line"><span class="function"><span class="keyword">public</span>   Dessert   <span class="title">iceCream</span><span class="params">()</span></span>&#123;</span><br><span class="line">     <span class="keyword">return</span> <span class="keyword">new</span> IceCream()  &#125;;</span><br><span class="line">      </span><br></pre></td></tr></table></figure>
+
+<p>如果使用XML配置bean的话，同样可以实现，使用<bean>元素的primary属性来指定首选的bean</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span> =<span class="string">&quot;iceCream&quot;</span>  <span class="attr">class</span>=<span class="string">&quot;com.desserteater.IceCream&quot;</span></span></span><br><span class="line"><span class="tag">   <span class="attr">primary</span>=<span class="string">&quot;true&quot;</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="3-3-2-限定自动装配的bean"><a href="#3-3-2-限定自动装配的bean" class="headerlink" title="3.3.2.限定自动装配的bean"></a>3.3.2.限定自动装配的bean</h4><p>设置首选bean的局限性在于@Primary无法将可选方案的范围限定到唯一一个无歧义的选型中，它只能标示一个优先的可选方案。</p>
+<p>因此需要限定符能够缩小范围，使用@Qualifier注解，将bean的 ID注入到参数中确定。可以与@Autowired和@Inject协同使用。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Autowired</span></span><br><span class="line"><span class="meta">@Qualifier(&quot;iceCream&quot;)</span>                            <span class="comment">//将IceCream bean注入到setDessert（）中</span></span><br><span class="line"><span class="function"><span class="keyword">public</span>   <span class="keyword">void</span>   <span class="title">setDessert</span><span class="params">(Dessert   dessert)</span>    </span>&#123;---&#125;</span><br></pre></td></tr></table></figure>
+
+<p>还可以创建自定义的限定符，需要的就是在bean声明上添加@Qualifier注解。在注入时使用cold限定符就可以了。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">声明</span><br><span class="line"><span class="meta">@component</span></span><br><span class="line"><span class="meta">@Qualifer</span>（<span class="string">&quot;cold&quot;</span>）           <span class="comment">//ID 为cold</span></span><br><span class="line"><span class="function"><span class="keyword">public</span>   class   IceCream    implements    <span class="title">Dessert</span><span class="params">(----)</span></span></span><br><span class="line"><span class="function">    </span></span><br><span class="line"><span class="function">注入</span></span><br><span class="line"><span class="function">@Autowired</span></span><br><span class="line"><span class="function">@<span class="title">Qualifier</span><span class="params">(<span class="string">&quot;cold&quot;</span>)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span>  class  <span class="title">setDessert</span><span class="params">(Dessert   dessert)</span></span>&#123;--&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-4-bean的作用域"><a href="#3-4-bean的作用域" class="headerlink" title="3.4.bean的作用域"></a>3.4.bean的作用域</h3><p>spring定义了多种作用域，可以基于这些作用域创建bean。</p>
+<p>1.单例：在整个应用中，只创建bean的一个实例。</p>
+<p>2.原型：每次注入或者通过spring应用上下获取的时候，都会创建一个新的bean实例。</p>
+<p>3.会话：在Web应用中，为每个会话创建一个bean的实例。</p>
+<p>4.请求：在Web应用中，为每个请求创建一个bean的实例。</p>
+<p>单例是默认的作用域，对于易变的类，如果选择其他的作用域，要使用@Scope注解，<br>可以与@Component或@bean一起使用。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="meta">@Scope(ConfigureableBeanFactory.SCOPE_PROTOTYPE)</span>    <span class="comment">//常量，原型作用域</span></span><br><span class="line"> <span class="function"><span class="keyword">public</span>  class   <span class="title">Notepad</span><span class="params">(---)</span>                        <span class="comment">//将Notepad声明为原型bean</span></span></span><br></pre></td></tr></table></figure>
+
+<p>如果使用XML来配置bean的话，可以使用<bean>元素的scope属性来设置作用域。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;noted&quot;</span>  <span class="attr">class</span>=<span class="string">&quot;com.myapp.Notepad&quot;</span></span></span><br><span class="line"><span class="tag"> <span class="attr">scope</span>=<span class="string">&quot;prototype&quot;</span>/&gt;</span>        //ConfigureableBeanFactory.SCOPE_PROTOTYPE类似</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-4-1-使用会话和请求作用域"><a href="#3-4-1-使用会话和请求作用域" class="headerlink" title="3.4.1.使用会话和请求作用域"></a>3.4.1.使用会话和请求作用域</h4><p>在Web应用中，如果能够实例化在会话和请求范围共享的bean，那是非常有价值的东西。</p>
+<p>要指定会话作用域，我们可以使用@Scope注解，使用与原型作用域一样。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="meta">@Scope(</span></span><br><span class="line"><span class="meta">     value=WebApplicationContext.SCOPE_SESSION,     //告诉spring为web应用的每一个会话,创建shoppingCart，会创建多个                                                          bean的实例。</span></span><br><span class="line"><span class="meta">             proxyMode=ScopedProxyMode.INTERFACES)</span>    <span class="comment">//解决将会话或请求作用域的bean注入到单例bean的问题</span></span><br><span class="line"> <span class="function"><span class="keyword">public</span>  shoppingCart  <span class="title">cart</span><span class="params">()</span></span>&#123;--&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-4-2-在XML中声明作用域代理"><a href="#3-4-2-在XML中声明作用域代理" class="headerlink" title="3.4.2.在XML中声明作用域代理"></a>3.4.2.在XML中声明作用域代理</h4><p><bean>元素的scope属性能够设置bean的作用域，设置代理需要使用spring aop命名空间的一个新元素。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;cart&quot;</span>   <span class="attr">class</span>=<span class="string">&quot;com.myapp.ShopingCart&quot;</span></span></span><br><span class="line"><span class="tag">  <span class="attr">Scope</span>=<span class="string">&quot;session&quot;</span>&gt;</span>               //与@Scope注解相同</span><br><span class="line">  <span class="tag">&lt;<span class="name">aop:scoped-proxy</span>/&gt;</span>        //与proxyMode属性相同,它会告诉spring为bean创建一个作用域代理。</span><br><span class="line">  <span class="tag">&lt;<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>还可以将proxy–target-class属性设置为false，进而要求它生成基于接口的代理。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">aop:scoped-proxyproxy--target-class=&quot;false&quot;</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-5-运行值注入"><a href="#3-5-运行值注入" class="headerlink" title="3.5.运行值注入"></a>3.5.运行值注入</h3><p>spring引入了spring表达式语言（SpEL）进行装配，它能够以一种简单的方式将值装配到bean属性和构造器参数中。</p>
+<p>SpEL拥有很多特效，包括</p>
+<p>1.使用bean 的ID来引用bean。</p>
+<p>2.调用方法和访问对象的属性。</p>
+<p>3.对值进行算术，关系和逻辑运算。</p>
+<p>4.正则表达式匹配。</p>
+<p>5.集合操作。</p>
+<p>SpEL表达式要放在  #{….}之中，这和属性占位符类似，属性占位符需要放在  ${…..}中。</p>
+<p><strong>表示字面值</strong></p>
+<p>#{3.14}      //表示浮点值3.14</p>
+<p>#{‘ hello’}     //表示String类型的字面量</p>
+<p>#{false}      //表示Boolean类型的值</p>
+<p><strong>引用bean，属性和方法</strong></p>
+<p>#{sgtPeppers}    //引用bean ID为sgtPeppers。</p>
+<p>#{sgtPeppers.artist}    //引用bean ID为sgtPeppers的artist属性。</p>
+<p>#{sgtPeppers.selectArtist()}    //引用bean ID为sgtPeppers的selectArtist()方法</p>
+<p>以上只是SpEL表达式简单的使用，具体可以自行上网查询其他。</p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -175,57 +307,106 @@
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2020/09/05/spring%E5%AE%9E%E6%88%984%E7%AC%AC%E4%B8%89%E7%AB%A0/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/09/04/spring%E5%AE%9E%E6%88%984%E7%AC%AC%E4%BA%8C%E7%AB%A0/" class="archive-article-date">
-  	<time datetime="2020-09-04T10:21:38.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-09-04</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2020/09/04/spring%E5%AE%9E%E6%88%984%E7%AC%AC%E4%BA%8C%E7%AB%A0/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">spring实战4第二章</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/09/04/spring%E5%AE%9E%E6%88%984%E7%AC%AC%E4%BA%8C%E7%AB%A0/">spring实战4第二章</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">spring</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
   
 
-    
+  
+
+  
 
 
           </div>
@@ -248,8 +429,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
