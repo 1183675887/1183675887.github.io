@@ -6,17 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://example.com">
-  <title>Archives | Hexo</title>
+  <title>spring实战第五章 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="个人博客">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://example.com/archives/index.html">
+  <meta name="description" content="第五章，构建Spring Web应用程序">
+<meta property="og:type" content="article">
+<meta property="og:title" content="spring实战第五章">
+<meta property="og:url" content="http://example.com/2020/09/06/spring%E5%AE%9E%E6%88%984%E7%AC%AC%E4%BA%94%E7%AB%A0/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="个人博客">
+<meta property="og:description" content="第五章，构建Spring Web应用程序">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-09-06T02:20:58.000Z">
+<meta property="article:modified_time" content="2020-09-17T08:47:45.728Z">
 <meta property="article:author" content="renzhicheng">
-<meta property="article:tag" content="后端博客">
+<meta property="article:tag" content="spring">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
@@ -134,405 +136,216 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-spring实战4第五章" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      spring实战第五章
+    </h1>
+  
+
+        
+        <a href="/2020/09/06/spring%E5%AE%9E%E6%88%984%E7%AC%AC%E4%BA%94%E7%AB%A0/" class="archive-article-date">
+  	<time datetime="2020-09-06T02:20:58.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-09-06</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="第五章，构建Spring-Web应用程序"><a href="#第五章，构建Spring-Web应用程序" class="headerlink" title="第五章，构建Spring Web应用程序"></a>第五章，构建Spring Web应用程序</h2><a id="more"></a>
+
+<h3 id="5-0-各种注解"><a href="#5-0-各种注解" class="headerlink" title="5.0.各种注解"></a>5.0.各种注解</h3><h4 id="1-EnableWebMvc"><a href="#1-EnableWebMvc" class="headerlink" title="1.@EnableWebMvc"></a>1.@EnableWebMvc</h4><p>@EnableWebMvc注解，会启动Spring MVC。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@EnableWebMvc</span>       <span class="comment">//启动Spring MVC</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WebConfig</span></span>&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-Controller"><a href="#2-Controller" class="headerlink" title="2.@Controller"></a>2.@Controller</h4><p>@Controller注解说明它是一个控制器。</p>
+<h4 id="3-RequestMapping"><a href="#3-RequestMapping" class="headerlink" title="3.@RequestMapping"></a>3.@RequestMapping</h4><p>方法上添加了@RequestMapping注解的类，这个注解声明了它们所要处理的请求。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Controller</span>          <span class="comment">//声明为一个控制器</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HomeController</span> </span>&#123;</span><br><span class="line">    <span class="meta">@RequestMapping(value=&quot;/&quot;,method=GET)</span>     <span class="comment">//处理对“/”的GET请求</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">home</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;home&quot;</span>;          <span class="comment">//返回的视图名为home</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+
+<h3 id="5-1-Spring-MVC起步"><a href="#5-1-Spring-MVC起步" class="headerlink" title="5.1.Spring MVC起步"></a>5.1.Spring MVC起步</h3><p>spring将请求在调度Servlet，处理器映射（handler mapping），控制器以及视图解析器（view resolver）之间移动。</p>
+<p>请求是从客户端出发，经过Spring MVC中的组件，最终再返回到客户端的。</p>
+<h4 id="5-1-1-跟踪Spring-MVC的请求"><a href="#5-1-1-跟踪Spring-MVC的请求" class="headerlink" title="5.1.1.跟踪Spring MVC的请求"></a>5.1.1.跟踪Spring MVC的请求</h4><p>请求离开浏览器时，会带有用户请求内容的信息，至少包含请求的URL。过程分为7步。</p>
+<p>1.请求旅程的第一站是spring的DispatcherServlet（程序调度Servlet，前段控制器），spring MVC所有请求都会通过一个前段控制器（front controller）Servlet，前段控制器是常用的Web应用程序模式。。</p>
+<p>2.DispatcherServlet的任务是将请求发送给Spring MVC控制器（controller）,控制器是一个用于处理请求的spring组件，因为应用程序有可能会有多个控制器，因此DispatcherServlet会查询一个或多个处理器映射（handler mapping）来确定请求的下一站是哪里。处理器映射会根据请求所携带的URL信息来进行决策。</p>
+<p>3.一旦选择了合适的处理器，DispatcherServlet会将请求发送给选择的控制器，到了控制器，请求会卸下负载（用户提交的信息）并耐心等待控制器处理处理这些信息。</p>
+<p>4.控制器在完成逻辑处理后，通常会产生一些信息，这些信息需要返回给用户并在浏览器上显示。这些信息被称为模型（modle）。这些信息会以用户友好的方式进行格式化，所以，信息需要发送给一个视图（view）比如JSP。</p>
+<p>5.控制器所做的最后一件事就是将模型打包，并且标示出用于渲染输出的视图名。它接下来会将请求连同模型和视图名发送回DispatcherServlet。</p>
+<p>6.DispatcherServlet将会使用视图解析器（view resolver）来将逻辑视图名匹配为一个特定的视图实现。比如JSP。在这里，它交付模型数据，请求的任务就完成了。视图将使用模型数据渲染输出，这个输出会通过响应对象传递给客户端。</p>
+<h4 id="5-1-2-搭建Spring-MVC"><a href="#5-1-2-搭建Spring-MVC" class="headerlink" title="5.1.2.搭建Spring MVC"></a>5.1.2.搭建Spring MVC</h4><h5 id="配置DispatcherServlet"><a href="#配置DispatcherServlet" class="headerlink" title="配置DispatcherServlet"></a>配置DispatcherServlet</h5><p>DispatcherServlet是Spring MVC的核心，负责将请求路由到其他的组件中。传统的方式是将servlet配置到web.xml中，这是方法之一，</p>
+<p>但是我们使用java来配置在Servlet容器中。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//扩展AbstractAnnotationConfigDispatcherServletInitializer的任意类都会自动的配置DispatcherServlet和spring应用上下   文。spring应用的上下文会位于应用程序的Servlet上下文之中。</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SpittrWebAppInitializer</span> <span class="keyword">extends</span> <span class="title">AbstractAnnotationConfigDispatcherServletInitializer</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> String[] getServletMapping()&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> String[] &#123; <span class="string">&quot;/&quot;</span> &#125;;         <span class="comment">//将一个或多个路径映射到DispatcherServlet上。&quot;/&quot;是应用的默认Servlet</span></span><br><span class="line">    &#125;                                        <span class="comment">//根目录，它会处理进入应用的所有请求。</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> Class&lt;?&gt;[] getRootConfigClasses()&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Class&lt;?&gt;[] &#123;RootConfig.class&#125;;      //指定配置类</span><br><span class="line">    &#125; </span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> Class&lt;?&gt;[] getServletConfigClasses()&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Class&lt;?&gt;[] &#123;WebConfig.class&#125;;      //指定配置类</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="启动Spring-MVC"><a href="#启动Spring-MVC" class="headerlink" title="启动Spring MVC"></a>启动Spring MVC</h5><p>启动Spring MVC组件的方法不止一种。可以通过XML进行配置的，但我们优先使用java配置。</p>
+<p>最简单的Spring MVC配置就是一个带有@EnableWebMvc注解的类。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@EnableWebMvc</span> <span class="comment">//启动Spring MVC</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WebConfig</span></span>&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-2-编写基本的控制器"><a href="#5-2-编写基本的控制器" class="headerlink" title="5.2.编写基本的控制器"></a>5.2.编写基本的控制器</h3><p>在Spring MVC中，控制器只是方法上添加了@RequestMapping注解的类，这个注解声明了它们所要处理的请求。可以在类上添加@Controller注解说明它是一个控制器。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Controller</span>          <span class="comment">//声明为一个控制器</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HomeController</span> </span>&#123;</span><br><span class="line">    <span class="meta">@RequestMapping(value=&quot;/&quot;,method=GET)</span>     <span class="comment">//处理对“/”的GET请求</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">home</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;home&quot;</span>;          <span class="comment">//返回的视图名为home</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+
+<p>还可以将@RequestMapping拆分，将其路径映射部分放在类级别上。当控制器在类级别上添加@RequestMapping注解时，这个注解会应用到控制器的所有处理方法上。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Controller</span> <span class="comment">//声明为一个控制器</span></span><br><span class="line"><span class="meta">@RequestMapping(&quot;/&quot;)</span>           <span class="comment">//将控制器映射到&quot;/&quot;</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HomeController</span> </span>&#123;</span><br><span class="line">    <span class="meta">@RequestMapping(method=GET)</span>     <span class="comment">//处理GET请求</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">home</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;home&quot;</span>;          <span class="comment">//返回的视图名为home</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+
+<h3 id="5-3-接受参数的输入"><a href="#5-3-接受参数的输入" class="headerlink" title="5.3.接受参数的输入"></a>5.3.接受参数的输入</h3><p>Spring MVC允许以多种方式将客户端中的数据传送到控制器的处理器方法中。</p>
+<p>查询参数（Query Parameter）</p>
+<p>表单参数（Form Parameter）</p>
+<p>路径参数（Path Variable）</p>
+<h3 id="5-4-校验表单"><a href="#5-4-校验表单" class="headerlink" title="5.4.校验表单"></a>5.4.校验表单</h3><p>java校验API定义了多个注解，这些注解可以放在属性上。具体上网搜索。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Spitter</span></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> Long id;</span><br><span class="line">     </span><br><span class="line">    <span class="meta">@NotNull</span>        <span class="comment">//非空</span></span><br><span class="line">    <span class="meta">@Size(min=5,max=16)</span>  <span class="comment">//5-16个字符</span></span><br><span class="line">    <span class="keyword">private</span> Sring username;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>启动校验用@Valid注解。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping(value=&quot;register&quot;,method=POST)</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">processRegistration</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="meta">@Valid</span> Spitter spitter,Errors errors)</span> </span>&#123;      <span class="comment">//校验Spitter输入</span></span><br><span class="line">        <span class="keyword">if</span>(errors.hasErrors())&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="string">&quot;registerForm&quot;</span>;       <span class="comment">//如果校验出现错误，则重新返回表单</span></span><br><span class="line">        &#125;</span><br><span class="line">    spitterRepository.save(spitter);</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;redirect:/spitter/&quot;</span> + spitter.getUsername();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/10/06/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E7%AC%AC%E5%8D%81%E4%BA%8C%E7%AB%A0/" class="archive-article-date">
-  	<time datetime="2020-10-06T08:03:19.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-10-06</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/10/06/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E7%AC%AC%E5%8D%81%E4%BA%8C%E7%AB%A0/">java核心技术第十二章</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">spring</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2020/09/06/spring%E5%AE%9E%E6%88%984%E7%AC%AC%E4%BA%94%E7%AB%A0/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/09/25/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E7%AC%AC%E5%85%AD%E7%AB%A0/" class="archive-article-date">
-  	<time datetime="2020-09-25T11:01:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-09-25</time>
-</a>
+<nav id="article-nav">
+  
+    <a href="/2020/09/06/spring%E5%AE%9E%E6%88%984%E7%AC%AC%E5%85%AD%E7%AB%A0/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          spring实战4第六章
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/09/06/spring%E5%AE%9E%E6%88%984%E7%AC%AC%E5%9B%9B%E7%AB%A0/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">spring实战4第四章</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/09/25/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E7%AC%AC%E5%85%AD%E7%AB%A0/">java核心技术第六章</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/09/25/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E7%AC%AC%E4%BA%94%E7%AB%A0/" class="archive-article-date">
-  	<time datetime="2020-09-25T11:00:50.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-09-25</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/09/25/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E7%AC%AC%E4%BA%94%E7%AB%A0/">java核心技术第五章</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/09/25/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E7%AC%AC%E5%9B%9B%E7%AB%A0/" class="archive-article-date">
-  	<time datetime="2020-09-25T11:00:35.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-09-25</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/09/25/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E7%AC%AC%E5%9B%9B%E7%AB%A0/">java核心技术第四章</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/09/25/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E7%AC%AC%E4%B8%89%E7%AB%A0/" class="archive-article-date">
-  	<time datetime="2020-09-25T11:00:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-09-25</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/09/25/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E7%AC%AC%E4%B8%89%E7%AB%A0/">java核心技术第三章</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/09/12/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A21-26%E7%AB%A0/" class="archive-article-date">
-  	<time datetime="2020-09-12T03:10:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-09-12</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/09/12/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A21-26%E7%AB%A0/">MySQL必知必会21-26章</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">MySQL</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/09/12/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A15-20%E7%AB%A0/" class="archive-article-date">
-  	<time datetime="2020-09-12T03:10:14.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-09-12</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/09/12/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A15-20%E7%AB%A0/">MySQL必知必会15-20章</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">MySQL</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/09/11/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A10-14%E7%AB%A0/" class="archive-article-date">
-  	<time datetime="2020-09-11T03:21:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-09-11</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/09/11/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A10-14%E7%AB%A0/">MySQL必知必会10-14章</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">MySQL</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/09/10/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A4-9%E7%AB%A0/" class="archive-article-date">
-  	<time datetime="2020-09-10T09:00:50.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-09-10</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/09/10/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A4-9%E7%AB%A0/">MySQL必知必会4-9章</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">MySQL</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/09/10/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A1-3%E7%AB%A0/" class="archive-article-date">
-  	<time datetime="2020-09-10T06:20:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-09-10</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/09/10/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A1-3%E7%AB%A0/">MySQL必知必会1-3章</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">MySQL</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/archives/page/2/">2</a><a class="page-number" href="/archives/page/3/">3</a><a class="extend next" rel="next" href="/archives/page/2/">Next &amp;raquo;</a>
-    </nav>
   
 
 
@@ -556,8 +369,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

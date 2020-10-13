@@ -6,17 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://example.com">
-  <title>Archives | Hexo</title>
+  <title>spring实战4第十五章 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="个人博客">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://example.com/archives/index.html">
+  <meta name="description" content="第十五章，使用远程服务作为一个java开发者，我们有多种可以使用的远程调用技术。 1.远程放大调用（RMI）。 2.Caucho的Hessian和Burlap。 3.Spring基于HTTP的远程服务。 4.使用JAX-RPC和JAX-WS的Web Service。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="spring实战4第十五章">
+<meta property="og:url" content="http://example.com/2020/09/07/spring%E5%AE%9E%E6%88%984%E7%AC%AC%E5%8D%81%E4%BA%94%E7%AB%A0/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="个人博客">
+<meta property="og:description" content="第十五章，使用远程服务作为一个java开发者，我们有多种可以使用的远程调用技术。 1.远程放大调用（RMI）。 2.Caucho的Hessian和Burlap。 3.Spring基于HTTP的远程服务。 4.使用JAX-RPC和JAX-WS的Web Service。">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-09-07T15:21:45.000Z">
+<meta property="article:modified_time" content="2020-10-13T06:56:30.434Z">
 <meta property="article:author" content="renzhicheng">
-<meta property="article:tag" content="后端博客">
+<meta property="article:tag" content="spring">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
@@ -134,405 +136,255 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-spring实战4第十五章" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      spring实战4第十五章
+    </h1>
+  
+
+        
+        <a href="/2020/09/07/spring%E5%AE%9E%E6%88%984%E7%AC%AC%E5%8D%81%E4%BA%94%E7%AB%A0/" class="archive-article-date">
+  	<time datetime="2020-09-07T15:21:45.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-09-07</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="第十五章，使用远程服务"><a href="#第十五章，使用远程服务" class="headerlink" title="第十五章，使用远程服务"></a>第十五章，使用远程服务</h2><p>作为一个java开发者，我们有多种可以使用的远程调用技术。</p>
+<p>1.远程放大调用（RMI）。</p>
+<p>2.Caucho的Hessian和Burlap。</p>
+<p>3.Spring基于HTTP的远程服务。</p>
+<p>4.使用JAX-RPC和JAX-WS的Web Service。</p>
+<a id="more"></a>
+
+<h3 id="15-1-Spring远程调度概览"><a href="#15-1-Spring远程调度概览" class="headerlink" title="15.1.Spring远程调度概览"></a>15.1.Spring远程调度概览</h3><p>远程调用是客户端应用和微服务之间的会话。在客户端，它所需要的一些功能并不在该应用远程服务暴露这些功能。我们将应用提供桌面应用或移动端应用。为了实现这功能，需要把接口的基本功能能发布为远程服务。</p>
+<p>其他应用与此应用之间的会话开始于客户端应用的一个远程过程调用（RPC）。RPC调用就是执行流从一个应用传递给另一个应用，理论上另一个应用部署在跨网络的一台远程机器上。Spring支持多种不同的RPC模型。</p>
+<p>1.远程方法调用（RMI）：不考虑网络限制时(如防火墙)，访问/发布基于java的服务。</p>
+<p>2.Hessian或Burlap：考虑网络限制时，通过HTTP访问/发布基于java的服务。Hession是二进制协议，而Burlap是基于XML的。</p>
+<p>3.HTTP invoker：考虑网络限制，并希望使用基于XML或专有的序列化机制实现java序列化时，访问/发布基于Spring的服务。</p>
+<p>4.JAX-RPC和JAX-WS：访问/发布平台独立的，基于SOAP的Web服务。</p>
+<p>不管选择哪种远程调用模型，我们会发现Spring都提供了风格一样的支持。在所有的模型中，服务都作为你Spring所管理的bean配置到我们的应用中。这是通过一个代理工厂bean实现的。这个bean能将远程服务想本地对象一样装配到其他bean的属性中去。</p>
+<h3 id="15-2-使用RMI"><a href="#15-2-使用RMI" class="headerlink" title="15.2.使用RMI"></a>15.2.使用RMI</h3><p>Spring简化了RMI模型，它提供了一个代理工厂bean，能让我们把RMI服务像本地javaBean那样装配到我们的Spring应用中。Spring还提供了一个远程导出器，用来简化把Spring管理的bean转化为RMI服务的工作。</p>
+<h4 id="15-2-1-导出RMI服务"><a href="#15-2-1-导出RMI服务" class="headerlink" title="15.2.1.导出RMI服务"></a>15.2.1.导出RMI服务</h4><p>如果你创建过RMI服务，应该会知道这会涉及如下几个步骤：<br>1.编写一个服务实现类，类中的方法必须抛出java.rmi.RemoteException异常。<br>2：创建一个继承于java.rmi.Remote的服务接口。<br>3：运行RMI编译器（rmic），创建客户端stub类和服务类skeleton类。<br>4：启动一个RMI注册表，以便持有这些服务。<br>5：在RMI注册表中注册服务。</p>
+<h5 id="在Spring中配置RMI服务"><a href="#在Spring中配置RMI服务" class="headerlink" title="在Spring中配置RMI服务"></a>在Spring中配置RMI服务</h5><p>Spring提供了更简单的方式来发布RMI服务，只需要简单地编写实现服务功能的POJO就可以了，Spring会处理剩下的其他事项。</p>
+<p>我们将要创建的RMI服务需要发布SpitterService接口的方法。如下展示了该接口定义。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public interface SpitterService&#123;</span><br><span class="line">           ------&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>RmiServiceExporter可以把任意Spring管理的bean发布为RMI服务。它把bean包装在一个适配器类中，然后通过适配器被绑定到RMI注册表中，并且代理到服务类的请求—–在本例中服务类也就是SpitterServiceImpl。如下使用@Bean方法进行配置。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="function"><span class="keyword">public</span>  RmiServiceExporter  <span class="title">rmiExporter</span><span class="params">(SpitterService)</span></span>&#123;</span><br><span class="line">     RmiServiceExporter  rmiExporter = <span class="keyword">new</span> RmiServiceExporter();</span><br><span class="line">          rmiExporter.setService(spitterService);     <span class="comment">//将该bean发布为一个RMI服务</span></span><br><span class="line">          rmiExporter.setServiceName(<span class="string">&quot;SpitterService&quot;</span>);  <span class="comment">//命名了RMI服务</span></span><br><span class="line">          rmiExporter.setServiceInterface(SpitterService.class);     //指定此服务所实现的接口</span><br><span class="line">             <span class="keyword">return</span>  rmiExporter; &#125;</span><br></pre></td></tr></table></figure>
+
+<p>把spitterService bean设置到service属性中，表明RmiServiceExporter要把该bean发布为一个RMI服务。ServiceName属性命名了RMI服务。ServiceInterface属性指定了此服务所实现的接口。</p>
+<p>默认情况下，RmiServiceExporter会绑定到本地机器1099端口的RMI注册表，不存在则会启动一个。如果希望绑定到别的端口或主机上的RMI注册表，那么可以通过registryPort和regisrtHost属性来指定。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> RmiServiceExporter <span class="title">rmiExporter</span><span class="params">(SpitterService spitterService)</span></span>&#123;</span><br><span class="line">    RmiServiceExporter rmiExporter = <span class="keyword">new</span>  RmiServiceExporter();</span><br><span class="line">          rmiExporter.setService(spitterService);</span><br><span class="line">          rmiExporter.setServiceName(<span class="string">&quot;SpitterService&quot;</span>);</span><br><span class="line">          rmiExporter.setServiceInterface(SpitterService.class);</span><br><span class="line">          rmiExporter.setregisrtHost(<span class="string">&quot;rmi.spitter.com&quot;</span>);  <span class="comment">//rmi.spitter.com主机</span></span><br><span class="line">          rmiExporter.setregistryPort(<span class="number">1199</span>);                  <span class="comment">//1199端口</span></span><br><span class="line">               <span class="keyword">return</span> rmiExporter;    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>这就是我们使用Spring把某个bean转变为RMI服务所需要做的全部工作。现在Spitter服务已经导出为RMI服务。我们可以为应用创建其他的用户界面或邀请第三方使用此RMI服务创建新的客户端。如果使用Spring，客户端开发访问应用的RMI服务会非常容易。让我们转换一下视角来看看如何编写Spring RMI服务的客户端。</p>
+<h4 id="15-2-2-装配RMI服务"><a href="#15-2-2-装配RMI服务" class="headerlink" title="15.2.2.装配RMI服务"></a>15.2.2.装配RMI服务</h4><p>传统上，RMI客户端必须使用RMI  API的Naming类从RMI注册表中查找服务，但是问题很大。Spring的RmiProxyFactoryBean是一个工厂bean，该bean可以为RMI服务创建代理。使用RmiProxyFactoryBean引用SpitterService的RMI服务是非常简单的，只需要在客户端的Spring配置中增加如下的@Bean方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="function"><span class="keyword">public</span>  RmiProxyFactoryBean <span class="title">spitterService</span><span class="params">()</span></span>&#123;</span><br><span class="line">    RmiProxyFactoryBean  rmiProxy = <span class="keyword">new</span> RmiProxyFactoryBean();</span><br><span class="line">          rmiProxy.setServiceUrl(<span class="string">&quot;rmi://localhost/SpitterService&quot;</span>); <span class="comment">//本地服务名</span></span><br><span class="line">          rmiProxy.setServiceInterface(SpitterService.class);</span><br><span class="line">              <span class="keyword">return</span>  rmiProxy;      &#125;</span><br></pre></td></tr></table></figure>
+
+<p>ServiceUrl属性设置服务的URL，在这里，服务名被设置为SpitterService。ServiceInterface属性设置服务提供的接口。</p>
+<p>现在已经把RMI服务声明为Spring管理的bean，我们就可以把它作为依赖装配进另一个bean中。假设客户端需要使用Spitter服务为指定的用户获取Spittle列表，我们可以使用@Autowired注解把服务代理装配进客户端中。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Autowired</span> </span><br><span class="line">SpitterService spitterService;</span><br></pre></td></tr></table></figure>
+
+<p>我们还可以像本地bean一样调用它的方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span>  List&lt;Spittle&gt; <span class="title">getSpittles</span><span class="params">(String userName)</span></span>&#123;</span><br><span class="line">     Spitter spitter = spitterService.getSpitter(userName);</span><br><span class="line">          <span class="keyword">return</span>  spitterService.getSpittlesForSpitter(spitter); &#125;</span><br></pre></td></tr></table></figure>
+
+<p>RMI存在某些限制，首先很难穿越防火墙。其次，RMI是基于java的，这意味着通过网络传输的对象类型必须要保证在调用两端的java运行时中是完全相同的版本。</p>
+<p>为了解决这些问题，我们可以在Spring中使用Hession和Burlap处理远程服务。</p>
+<h3 id="15-3-使用Hession和Burlap发布远程服务"><a href="#15-3-使用Hession和Burlap发布远程服务" class="headerlink" title="15.3.使用Hession和Burlap发布远程服务"></a>15.3.使用Hession和Burlap发布远程服务</h3><p>Hession和Burlap是基于HTTP的轻量级远程服务解决方案。你可能想知道如何在Hession和Burlap之间做出选择，很多程度上，它们是一样的，唯一的区别在于Hession的消息是二进制的，而Burlap的消息是XML。Hession在宽带山更有优势，但是如果我们更注重可读性（出于调试的目的）或者我们的应用需要与没有Hession实现的语言交互，那么Burlap的XML消息回事更好的选择。</p>
+<h4 id="15-3-1-使用Hessian和Burlap导出bean的功能"><a href="#15-3-1-使用Hessian和Burlap导出bean的功能" class="headerlink" title="15.3.1.使用Hessian和Burlap导出bean的功能"></a>15.3.1.使用Hessian和Burlap导出bean的功能</h4><p>像之前一样，我们希望把SpitterServiceImpl类的功能发布为远程服务-这次是一个Hession服务。</p>
+<h5 id="导出Hession服务"><a href="#导出Hession服务" class="headerlink" title="导出Hession服务"></a>导出Hession服务</h5><p>与之前一样，把Spitter服务发布为Hession服务，先配置一个RmiServiceExporter，之后需要配置另一个导出bean，这不过这次是HessianServiceExporter。HessianServiceExporter它把POJO的public方法发布为Hession服务的方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> HessianServiceExporter  <span class="title">hessianExportedSpitterService</span><span class="params">(SpitterService  service)</span></span>&#123;</span><br><span class="line">    HessianServiceExporter  exporter = <span class="keyword">new</span> HessianServiceExporter();</span><br><span class="line">           exporter.setService(service);               <span class="comment">//实现了这个服务的bean引用</span></span><br><span class="line">           exporter.setServiceInterface(SpitterService.class); //实现了SpitterService接口</span><br><span class="line">               <span class="keyword">return</span>  exporter;  &#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h5 id="配置Hession控制器"><a href="#配置Hession控制器" class="headerlink" title="配置Hession控制器"></a>配置Hession控制器</h5><p>由于Hesson是基于HTTP的，所以HessianServiceExporter实现为一个Spring MVC控制器。这意味着为了使用导出的Hessian服务，我们需要执行两个额外的配置步骤。</p>
+<p>1：在web.xml中配置Spring的DispatcherServlet，并把我们的应用部署为Web应用。<br>2：在Spring的配置文件中配置一个URL处理器，把Hessian服务的URL分类给对应的Hessian服务bean。</p>
+<p>我们已经在第5张学习了如何配置Spring的DispatcherServlet。我们只需要在DispatcherServlet配置一个Servlet映射来拦截后缀为”*.service”的URL。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">servlet-mapping</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>Spitter<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>*.service<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">servlet-mapping</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>如果你在java中通过实现WebApplicationInitializer来配置DispatcherServlet的话，那么需要将URL模式作为映射添加到ServletRegistration.Dynamic中，在将DispatcherServlet添加到容器的时候，我们能够得到ServletRegistration.Dynamic对象。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ServletRegistration.Dynamic dispatcher = container.addServlet(</span><br><span class="line">   <span class="string">&quot;appServlet&quot;</span>,<span class="keyword">new</span> DispatcherServlet(dispatcherServletContext));</span><br><span class="line">       dispatcher.setLoadOnStertup(<span class="number">1</span>);</span><br><span class="line">       dispatcher.addMapping(<span class="string">&quot;/&quot;</span>);</span><br><span class="line">       dispatcher.addMapping(<span class="string">&quot;*.service&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>如果你通过扩展AbstractDispatcherServletInitalizer或AbstractAnnotationConfigDispatcherServletInitializer的方式配置DispatcherServlet，那么在重载getServletMappings()的时候，需要包含该映射。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"> <span class="keyword">protected</span> String[] getServletMapping()&#123;</span><br><span class="line">     <span class="keyword">return</span> <span class="keyword">new</span> String[] &#123;<span class="string">&quot;/&quot;</span>,<span class="string">&quot;*.service&quot;</span>&#125;;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<p>这样配置后，任何以”.service”结束的URL请求都将由DispatcherServlet处理，它会把请求传递给匹配这个URL的控制器。我们还需配置一个URL映射来确保DispatcherService把请求转给hessianSpitterService。如下的SimpleUrlHandleMapping bean可以做到这一点。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="function"><span class="keyword">public</span>  HandlerMapping  <span class="title">hessianMapping</span><span class="params">()</span></span>&#123;</span><br><span class="line">   SimpleUrlHandlerMapping mapping = <span class="keyword">new</span>  SimpleUrlHandlerMapping();</span><br><span class="line">          properties  mappings = <span class="keyword">new</span> Properties();</span><br><span class="line">          mappings.setProperty(<span class="string">&quot;/Spitter.service&quot;</span>,<span class="string">&quot;hessianExportedSpitterService&quot;</span>);</span><br><span class="line">          mapping.setMappings(mappings);</span><br><span class="line">               <span class="keyword">return</span>  mapping;     &#125;                                                            </span><br></pre></td></tr></table></figure>
+
+<p>如果不喜欢Hessian的二进制协议，我们还可以选择使用Burlap基于XML的协议。</p>
+<h5 id="导出Burlap服务"><a href="#导出Burlap服务" class="headerlink" title="导出Burlap服务"></a>导出Burlap服务</h5><p>BurlapServiceExporter与HessianServiceExporter实际上都是相同的。下面的bean定义展示了如何使用BurlapServiceExporter把Spitter服务导出为一个Burlap服务。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="function"><span class="keyword">public</span>  BurlapServiceExporter  <span class="title">burlapExportedSpitterService</span><span class="params">(SpitterService service)</span></span>&#123;</span><br><span class="line">   BurlapServiceExporter  exporter = <span class="keyword">new</span> BurlapServiceExporter();</span><br><span class="line">         exporter.setService(service);</span><br><span class="line">         exporter.setServiceInterface(SpitterService.class);</span><br><span class="line">            <span class="keyword">return</span>  exporter;       &#125;   </span><br></pre></td></tr></table></figure>
+
+<h4 id="15-3-2-访问Hession-Burlap服务"><a href="#15-3-2-访问Hession-Burlap服务" class="headerlink" title="15.3.2.访问Hession/Burlap服务"></a>15.3.2.访问Hession/Burlap服务</h4><p>在客户端代码中，基于RMI的服务于Hession的服务之间唯一的差别在于要使用Spring的HessianproxyFactoryBean来代替RmiProxyFactoryBean。客户端调用基于Hessian的Spitter服务可以用如下的配置声明。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="function"><span class="keyword">public</span>  HessianproxyFactoryBean <span class="title">spitterService</span><span class="params">()</span></span>&#123;</span><br><span class="line">    HessianproxyFactoryBean  rmiProxy = <span class="keyword">new</span> HessianproxyFactoryBean();</span><br><span class="line">          rmiProxy.setServiceUrl(<span class="string">&quot;rmi://localhost/SpitterService&quot;</span>); <span class="comment">//本地服务名</span></span><br><span class="line">          rmiProxy.setServiceInterface(SpitterService.class);</span><br><span class="line">              <span class="keyword">return</span>  rmiProxy;      &#125;</span><br></pre></td></tr></table></figure>
+
+<p>Burlap也一样，使用BurlapProxyFactoryBean来代替HessianProxyFactoryBean。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="function"><span class="keyword">public</span>  BurlapProxyFactoryBean <span class="title">spitterService</span><span class="params">()</span></span>&#123;</span><br><span class="line">    BurlapProxyFactoryBean  rmiProxy = <span class="keyword">new</span> BurlapProxyFactoryBean();</span><br><span class="line">          rmiProxy.setServiceUrl(<span class="string">&quot;rmi://localhost/SpitterService&quot;</span>); <span class="comment">//本地服务名</span></span><br><span class="line">          rmiProxy.setServiceInterface(SpitterService.class);</span><br><span class="line">              <span class="keyword">return</span>  rmiProxy;      &#125;</span><br></pre></td></tr></table></figure>
+
+<p>因为Hessian和Burlap都是基于HTTP的，当传递过来的RPC消息中包含序列化对象时会有一些问题。我们还有一个两全其美的解决方案。让我们看一下Spring的HTTP invoker，它基于HTTP提供了RPC(与Hession/Burlap一样)，同时又使用了java的对象化序列化机制（像RMI一样）。</p>
+<h3 id="15-4-使用Spring的HttpInvoker"><a href="#15-4-使用Spring的HttpInvoker" class="headerlink" title="15.4.使用Spring的HttpInvoker"></a>15.4.使用Spring的HttpInvoker</h3><h4 id="15-4-1-将bean导出为HTTP服务"><a href="#15-4-1-将bean导出为HTTP服务" class="headerlink" title="15.4.1.将bean导出为HTTP服务"></a>15.4.1.将bean导出为HTTP服务</h4><p>为了把应用服务导出为一个基于Http invoker的服务，我们需要像下面的配置一样声明HttpInvokerServiceExporter bean。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="function"><span class="keyword">public</span>  HttpInvokerServiceExporter <span class="title">httpExportedSpitterService</span><span class="params">(SpitterService  service)</span></span>&#123;</span><br><span class="line">      HttpInvokerServiceExporter  exporter = <span class="keyword">new</span> HttpInvokerServiceExporter();</span><br><span class="line">              exporter.setService(service);</span><br><span class="line">              exporter.serServiceInterface(SpitterService.class);</span><br><span class="line">                <span class="keyword">return</span>  exporter;       &#125;</span><br></pre></td></tr></table></figure>
+
+<p>因为HttpInvokerServiceExporter是一个Spring MVC控制器，我们需要建立一个URL处理器，映射HTTP URL到对应的服务上，就像Hessian和Burlap导出器做的一样。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> HandleMapping <span class="title">httpInvokerMapping</span><span class="params">()</span></span>&#123;</span><br><span class="line">    SimpleUrlHandlerMapping mapping = newSimpleUrlHandlerMapping();</span><br><span class="line">    properties mapping = <span class="keyword">new</span> Properties();</span><br><span class="line">    mapping.setProperty(<span class="string">&quot;/spitter.service&quot;</span>,<span class="string">&quot;httpExportedSpitterService&quot;</span>);</span><br><span class="line">    mapping.setMappings(mappings);</span><br><span class="line">      <span class="keyword">return</span> mapping;  &#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="15-4-2-通过HTTP访问服务"><a href="#15-4-2-通过HTTP访问服务" class="headerlink" title="15.4.2.通过HTTP访问服务"></a>15.4.2.通过HTTP访问服务</h4><p>通过Http访问服务类似之前的服务代理。将HttpInvokerProxyFactoryBean配置为bean。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="function"><span class="keyword">public</span>  HttpInvokerProxyFactoryBean <span class="title">spitterService</span><span class="params">()</span></span>&#123;</span><br><span class="line">    HttpInvokerProxyFactoryBean  Proxy = <span class="keyword">new</span> HttpInvokerProxyFactoryBean();</span><br><span class="line">           Proxy.setServiceUrl(<span class="string">&quot;http://localhost:8080/Spitter/spitter.service&quot;</span>); </span><br><span class="line">           Proxy.setServiceInterface(SpitterService.class);</span><br><span class="line">               <span class="keyword">return</span>  Proxy;                                             &#125;</span><br></pre></td></tr></table></figure>
+
+<p>要记住HTTP invoker有一个重大的限制：它只是一个Spring框架所提供的的远程调用解决方案，这意味着客户端和服务器端必须是Spring应用。</p>
+<p>未完待续。</p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/10/06/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E7%AC%AC%E5%8D%81%E4%BA%8C%E7%AB%A0/" class="archive-article-date">
-  	<time datetime="2020-10-06T08:03:19.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-10-06</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/10/06/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E7%AC%AC%E5%8D%81%E4%BA%8C%E7%AB%A0/">java核心技术第十二章</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">spring</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2020/09/07/spring%E5%AE%9E%E6%88%984%E7%AC%AC%E5%8D%81%E4%BA%94%E7%AB%A0/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/09/25/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E7%AC%AC%E5%85%AD%E7%AB%A0/" class="archive-article-date">
-  	<time datetime="2020-09-25T11:01:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-09-25</time>
-</a>
+<nav id="article-nav">
+  
+    <a href="/2020/09/07/spring%E5%AE%9E%E6%88%984%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          spring实战4第十三章
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/09/07/spring%E5%AE%9E%E6%88%984%E7%AC%AC%E5%8D%81%E4%BA%8C%E7%AB%A0/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">spring实战4第十二章</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/09/25/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E7%AC%AC%E5%85%AD%E7%AB%A0/">java核心技术第六章</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/09/25/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E7%AC%AC%E4%BA%94%E7%AB%A0/" class="archive-article-date">
-  	<time datetime="2020-09-25T11:00:50.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-09-25</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/09/25/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E7%AC%AC%E4%BA%94%E7%AB%A0/">java核心技术第五章</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/09/25/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E7%AC%AC%E5%9B%9B%E7%AB%A0/" class="archive-article-date">
-  	<time datetime="2020-09-25T11:00:35.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-09-25</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/09/25/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E7%AC%AC%E5%9B%9B%E7%AB%A0/">java核心技术第四章</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/09/25/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E7%AC%AC%E4%B8%89%E7%AB%A0/" class="archive-article-date">
-  	<time datetime="2020-09-25T11:00:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-09-25</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/09/25/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E7%AC%AC%E4%B8%89%E7%AB%A0/">java核心技术第三章</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/09/12/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A21-26%E7%AB%A0/" class="archive-article-date">
-  	<time datetime="2020-09-12T03:10:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-09-12</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/09/12/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A21-26%E7%AB%A0/">MySQL必知必会21-26章</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">MySQL</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/09/12/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A15-20%E7%AB%A0/" class="archive-article-date">
-  	<time datetime="2020-09-12T03:10:14.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-09-12</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/09/12/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A15-20%E7%AB%A0/">MySQL必知必会15-20章</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">MySQL</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/09/11/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A10-14%E7%AB%A0/" class="archive-article-date">
-  	<time datetime="2020-09-11T03:21:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-09-11</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/09/11/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A10-14%E7%AB%A0/">MySQL必知必会10-14章</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">MySQL</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/09/10/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A4-9%E7%AB%A0/" class="archive-article-date">
-  	<time datetime="2020-09-10T09:00:50.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-09-10</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/09/10/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A4-9%E7%AB%A0/">MySQL必知必会4-9章</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">MySQL</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/09/10/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A1-3%E7%AB%A0/" class="archive-article-date">
-  	<time datetime="2020-09-10T06:20:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-09-10</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/09/10/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A1-3%E7%AB%A0/">MySQL必知必会1-3章</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">MySQL</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/archives/page/2/">2</a><a class="page-number" href="/archives/page/3/">3</a><a class="extend next" rel="next" href="/archives/page/2/">Next &amp;raquo;</a>
-    </nav>
   
 
 
@@ -556,8 +408,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

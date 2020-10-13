@@ -6,17 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://example.com">
-  <title>Archives | Hexo</title>
+  <title>Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="个人博客">
-<meta property="og:type" content="website">
+  <meta name="description" content="第十章，通过Spring和JDBC征服数据库">
+<meta property="og:type" content="article">
 <meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://example.com/archives/index.html">
+<meta property="og:url" content="http://example.com/2020/09/06/spring%E5%AE%9E%E6%88%984%E7%AC%AC%E5%8D%81%E7%AB%A0/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="个人博客">
+<meta property="og:description" content="第十章，通过Spring和JDBC征服数据库">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-09-06T09:31:45.000Z">
+<meta property="article:modified_time" content="2020-09-17T08:47:24.703Z">
 <meta property="article:author" content="renzhicheng">
-<meta property="article:tag" content="后端博客">
+<meta property="article:tag" content="spring">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
@@ -134,405 +136,266 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-spring实战4第十章" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="第十章，通过Spring和JDBC征服数据库"><a href="#第十章，通过Spring和JDBC征服数据库" class="headerlink" title="第十章，通过Spring和JDBC征服数据库"></a>第十章，通过Spring和JDBC征服数据库</h2><a id="more"></a>
+
+<h3 id="10-0-各种注解"><a href="#10-0-各种注解" class="headerlink" title="10.0.各种注解"></a>10.0.各种注解</h3><h4 id="1-Repository"><a href="#1-Repository" class="headerlink" title="1.@Repository"></a>1.@Repository</h4><p>@Repository注解，在类上使用，表明它将会在组件扫描的时候自动创建。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Repository</span>               <span class="comment">//表明它会在组件扫描的时候自动创建。</span></span><br><span class="line"><span class="keyword">public</span>   <span class="class"><span class="keyword">class</span>  <span class="title">JdbcSpitterRepository</span>  <span class="keyword">implements</span>  <span class="title">SpitterRepository</span></span>&#123;</span><br><span class="line">   <span class="keyword">private</span>  JdbcOperations   jdbcOperations;</span><br><span class="line">    <span class="meta">@Autowired</span>    <span class="comment">//JdbcOperations是一个接口，定义了jdbcTemplate所实现的操作。</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span>  <span class="title">JdbcSpitterRepository</span><span class="params">(JdbcOperations   JdbcOperations)</span></span>&#123;</span><br><span class="line">      <span class="keyword">this</span>.JdbcOperations=JdbcOperations;</span><br><span class="line">                             &#125;</span><br><span class="line">    --------</span><br><span class="line">                         &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="10-1-Spring的数据访问哲学"><a href="#10-1-Spring的数据访问哲学" class="headerlink" title="10.1.Spring的数据访问哲学"></a>10.1.Spring的数据访问哲学</h3><p>很多应用需要从某种类型的数据库中读取和写入数据，为了避免持久化的逻辑分散到应用的各个组件中，最好将数据访问的功能放在一个或多个专注于此项任务的组件中。这样的组件通常称为数据访问对象（DAO），或Repository。</p>
+<p>为了避免应用于特定的数据访问策略耦合在一起，编写良好的Repository应该以接口的方式暴露功能。</p>
+<p>但这并不是强制的，可以使用Spring将bean（DAO或其他类型）直接装配到另一个bean的属性中，而不需要一定通过接口注入。</p>
+<h4 id="10-1-2-数据访问模块化"><a href="#10-1-2-数据访问模块化" class="headerlink" title="10.1.2.数据访问模块化"></a>10.1.2.数据访问模块化</h4><p>Spring将数据访问过程中固定的和可变的部分明确划分为两个不同的类：模板(template)和回调(callback)。模板管理过程中固定的部分，而回调处理自定义的数据访问代码。</p>
+<p>Repository模板负责1.2.5.6步。Repository负责3.4步。</p>
+<p>1.准备资源   2.开始事务</p>
+<p>3.在事务中执行  4.返回数据</p>
+<p>5.提交/回滚事务  6.关闭资源和处理错误</p>
+<p>Spring的模板类负责数据访问的固定部分–事务控制，管理资源，以及处理异常。同时应用程序相关的数据访问-语句，参数绑定以及整理结果集在回调的实现中处理。</p>
+<p>Spring所支持的大多数持久化功能都依赖于数据源。因此，在声明模板和Repository之前，我们需要在Spring中配置一个数据源用来连接数据库。</p>
+<h3 id="10-2-配置数据源"><a href="#10-2-配置数据源" class="headerlink" title="10.2.配置数据源"></a>10.2.配置数据源</h3><p>Spring提供了在Spring上下文中配置数据源bean的多种方式。</p>
+<p>1.通过JDBC驱动定义的数据源。</p>
+<p>2.通过JNDI查找的数据源。</p>
+<p>3.连接池的数据源。</p>
+<p>对于即将发布到生产环境中的应用程序，建议使用从连接池获取连接的数据源。如果可能的话，，更倾向于通过应用服务器的JNDI来获取数据源。</p>
+<h4 id="10-2-1-使用JNDI数据源"><a href="#10-2-1-使用JNDI数据源" class="headerlink" title="10.2.1.使用JNDI数据源"></a>10.2.1.使用JNDI数据源</h4><p>Spring应用程序经常部署在java EE应用服务器中，如Tomcat这样的Web容器。这些服务器允许你配置通过JNDI获取数据源。这种配置的好处在于数据源完全可以在应用程序之外进行管理。在应用服务器中管理的数据源通常以池的方式组织。</p>
+<p>利用Spring，我们可以像使用Spring bean那样配置JNDI中数据源的引用将其装配到需要的类中。可以使用<a href="Jee:jndi-lookup">Jee:jndi-lookup</a>元素将其装配到Spring中。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">jee:jndi-lookup</span>  <span class="attr">id</span>=<span class="string">&quot;dataScoure&quot;</span></span></span><br><span class="line"><span class="tag">     <span class="attr">jndi-name</span>=<span class="string">&quot;/jdbc/SpitterDS&quot;</span>    //<span class="attr">jndi-name</span>属性用于指定<span class="attr">JNDI</span>中资源的名称。</span></span><br><span class="line"><span class="tag">     <span class="attr">resource-ref</span>=<span class="string">&quot;true&quot;</span> /&gt;</span>         //运行在java应用服务器将resource-ref设置为true，</span><br><span class="line">                                    //这样给定的jndi-name会自动添加&quot;java:comp/env/&quot;前缀。</span><br></pre></td></tr></table></figure>
+
+<p>如果想使用java配置的话，可以借助JndiObjectFactoryBean从JNDI中查找DataSource。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="function"><span class="keyword">public</span>  JndiObjectFactoryBean    <span class="title">dataScoure</span><span class="params">()</span></span>&#123;</span><br><span class="line">   JndiObjectFactoryBean  jndiObjectFB  =  <span class="keyword">new</span>  JndiObjectFactoryBean();</span><br><span class="line">   JndiObjectFB.setJndiName(<span class="string">&quot;jdbc/SpitterDS&quot;</span>);</span><br><span class="line">   JndiObjectFB.setResourceRef(ture);</span><br><span class="line">   JndiObjectFB.setProxyInterface(javax.sql.DataSource.class);</span><br><span class="line">      <span class="keyword">return</span>   jndiObjectFB;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="10-2-2-使用数据源连接池"><a href="#10-2-2-使用数据源连接池" class="headerlink" title="10.2.2.使用数据源连接池"></a>10.2.2.使用数据源连接池</h4><p>如果不能从JNDI中查找数据源，那么下一个选择就是直接在Spring中配置数据源连接池。有如下开源的实现</p>
+<p>1.Apache Commons DBCP</p>
+<p>2.c3p0</p>
+<p>3.BoneCP</p>
+<p>这些连接池中的大多数都能配置为Spring的数据源，在一定程度上与Spring自带的DriverManagerDataSource或SingleConnectionDataSource很类似。例如，如下就是配置DBCP basicDataSource的方式。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;dataSource&quot;</span>   <span class="attr">class</span>=<span class="string">&quot;org.apache.dbcp.BasicDataSource&quot;</span>  </span></span><br><span class="line"><span class="tag">  <span class="attr">p:driverClassName</span>=<span class="string">&quot;org.h2.Driver&quot;</span>       //指定<span class="attr">JDBC</span>驱动类的全限定类名     </span></span><br><span class="line"><span class="tag">  <span class="attr">p:url</span>=<span class="string">&quot;jdbc:h2:tcp//localhost/~/spitter&quot;</span>        //设置了<span class="attr">JDBC</span>的<span class="attr">URL</span>。</span></span><br><span class="line"><span class="tag">  <span class="attr">p:username</span>=<span class="string">&quot;sa&quot;</span>     //用于认证</span></span><br><span class="line"><span class="tag">  <span class="attr">p:password</span>=<span class="string">&quot; &quot;</span>       //用于认证</span></span><br><span class="line"><span class="tag">  <span class="attr">p:initialSize</span>=<span class="string">&quot;5&quot;</span>     //池子启动时创建的连接数量</span></span><br><span class="line"><span class="tag">  <span class="attr">p:maxActive</span>=<span class="string">&quot;10&quot;</span>  /&gt;</span>   //同一时间可从池里分配的最多连接数</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>如果喜欢java配置的话，连接池形式的DataSource bean可以声明如下。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="function"><span class="keyword">public</span>   BasicDataSource  <span class="title">dataSource</span><span class="params">()</span></span>&#123;</span><br><span class="line">  BasicDataSource  ds =  <span class="keyword">new</span>   BasicDataSource();</span><br><span class="line">     ds.setDriverClassName(<span class="string">&quot;org.h2.Driver&quot;</span>);           <span class="comment">//指定JDBC驱动类的全限定类名。</span></span><br><span class="line">     ds.setUrl(<span class="string">&quot;jdbc:h2:tcp//localhost/~/spitter&quot;</span>) ;   <span class="comment">//设置了JDBC的URL。</span></span><br><span class="line">     ds.setUsername(<span class="string">&quot;sa&quot;</span>);          <span class="comment">//用于认证</span></span><br><span class="line">     ds.setPassword(<span class="string">&quot; &quot;</span>);           <span class="comment">//用于认证</span></span><br><span class="line">     ds.setInitialSize(<span class="number">5</span>);          <span class="comment">//池子启动时创建的连接数量</span></span><br><span class="line">     ds.setMaxActive(<span class="number">10</span>);           <span class="comment">//同一时间可从池里分配的最多连接数</span></span><br><span class="line">         <span class="keyword">return</span>  ds;</span><br><span class="line">                   &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>前四个属性是配置BasicDataSource所必需的。属性driverClassName指定了JDBC驱动类的全限定类名。属性url用于设置数据库的JDBC URL。最后，username和password用于在连接数据库时进行认证。</p>
+<h4 id="10-2-3-基于JDBC驱动的数据源"><a href="#10-2-3-基于JDBC驱动的数据源" class="headerlink" title="10.2.3.基于JDBC驱动的数据源"></a>10.2.3.基于JDBC驱动的数据源</h4><p>在spring中，基于JDBC驱动的定义数据源是最简单的配置方式。spring提供了3个这样的数据源类。</p>
+<p>1.DriverMangerDataSource:   在每个连接请求时都会返回一个新建的连接。与DBCP的BasicDataSource不同，DriverMangerDataSource提供的连接池并没有进行池化管理。<br> 2..SimpleDriverDataSource:  与DriverMangerDataSource的工作方法类似，但是它直接使用JDBC驱动，来解决在特定环境下的类加载问题，这样的环境包括OSGi容器；<br>3.SingleConnectionDataSource:  在每个连接请求时都会返回一个同一个的连接。 尽管SingleConnectionDataSource不是严格意义上的连接池数据源，但是你可以将其视为只有一个连接的池。</p>
+<p>以上这些数据源的配置与DBCP BasicDataSource的配置类似。例如如下就是配置DriverMangerDataSource的方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="function"><span class="keyword">public</span>  DataSource  <span class="title">dataSource</span><span class="params">()</span></span>&#123;</span><br><span class="line">   DriverManagerDataSource  ds  =  <span class="keyword">new</span>  DriverManagerDataSource();</span><br><span class="line">      ds.setDriverClassName(<span class="string">&quot;org.h2.Driver&quot;</span>);           <span class="comment">//指定JDBC驱动类的全限定类名。</span></span><br><span class="line">      ds.setUrl(<span class="string">&quot;jdbc:h2:tcp//localhost/~/spitter&quot;</span>) ;   <span class="comment">//设置了JDBC的URL。</span></span><br><span class="line">      ds.setUsername(<span class="string">&quot;sa&quot;</span>);     <span class="comment">//用于认证</span></span><br><span class="line">      ds.setPassword(<span class="string">&quot; &quot;</span>);      <span class="comment">//用于认证</span></span><br><span class="line">        <span class="keyword">return</span>  ds;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果使用xml的话，DriverManagerDataSource可以按如下的方式配置。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;dataSource&quot;</span>   <span class="attr">class</span>=<span class="string">&quot;org.springframework.jdbc.datasource.DriverMangerDataSource&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">p:driverClassName</span>=<span class="string">&quot;org.h2.Driver&quot;</span>      //指定<span class="attr">JDBC</span>驱动类的全限定类名     </span></span><br><span class="line"><span class="tag">    <span class="attr">p:url</span>=<span class="string">&quot;jdbc:h2:tcp//localhost/~/spitter&quot;</span>      //设置了<span class="attr">JDBC</span>的<span class="attr">URL</span>。</span></span><br><span class="line"><span class="tag">    <span class="attr">p:username</span>=<span class="string">&quot;sa&quot;</span>         //用于认证</span></span><br><span class="line"><span class="tag">    <span class="attr">p:password</span>=<span class="string">&quot; &quot;</span>  /&gt;</span>      //用于认证</span><br></pre></td></tr></table></figure>
+
+<p>以上都有限制，因此强烈建议使用数据源连接池。</p>
+<h4 id="10-2-4-使用嵌入式的数据源"><a href="#10-2-4-使用嵌入式的数据源" class="headerlink" title="10.2.4.使用嵌入式的数据源"></a>10.2.4.使用嵌入式的数据源</h4><p>嵌入式在生产环境中，没什么作用，但是对于开发和测试来讲，是个好方案。因为每次重启应用或运行测试的时候，都能够<br>重新填充测试数据。spring的jdbc命名空间能简化嵌入式数据库的配置。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">----</span>&gt;</span>  </span><br><span class="line">  <span class="tag">&lt;<span class="name">jdbc:embedded-database</span>  <span class="attr">id</span>=<span class="string">&quot;dataSource&quot;</span>  <span class="attr">type</span>=<span class="string">&quot;H2&quot;</span>&gt;</span>   //type为H2，表明是嵌入式H2数据库</span><br><span class="line">  <span class="tag">&lt;<span class="name">jdbc:script</span>  <span class="attr">location</span>=<span class="string">&quot;com/habuma/spitter/db/jdbc/schema.sql&quot;</span> /&gt;</span>   //引用数据库中创建表的SQL</span><br><span class="line">  <span class="tag">&lt;<span class="name">jdbc:script</span>  <span class="attr">location</span>=<span class="string">&quot;com/habuma/spitter/db/jdbc/test-data.sql&quot;</span> /&gt;</span> //将测试数据填充到数据库中</span><br><span class="line">  <span class="tag">&lt;/<span class="name">jdbc:embedded-database</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>用java来配置嵌入式数据库时，可以使用EmbeddedDatabaseBuilder来构造DataSource。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="function"><span class="keyword">public</span>  DataSource   <span class="title">dataSource</span><span class="params">()</span></span>&#123;</span><br><span class="line">   <span class="keyword">return</span>  <span class="keyword">new</span>  EmbeddedDatabaseBuilder()</span><br><span class="line">         .setType(EmbeddedDatabaseType.H2)</span><br><span class="line">         .addScript(<span class="string">&quot;classpath:schema.sql&quot;</span>)</span><br><span class="line">         .addScript(<span class="string">&quot;classpath:test-data.sql&quot;</span>)</span><br><span class="line">         .build();</span><br><span class="line">                   &#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="10-2-2-使用profile选择数据源"><a href="#10-2-2-使用profile选择数据源" class="headerlink" title="10.2.2.使用profile选择数据源"></a>10.2.2.使用profile选择数据源</h4><p>我们很可能面临这样一种需求，那就是在某种环境下需要其中一种数据源，而在另外的环境中需要不同的数据源。例如，</p>
+<p>对于开发期来说，<a href="jdbc:embedded-database">jdbc:embedded-database</a>元素是很合适的，</p>
+<p>而在QA环境中，你可能希望使用DBCP的BasicDataSource，</p>
+<p>在生产部署环境下，可能需要使用<a href="jee:jndi-lookup">jee:jndi-lookup</a></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DataSourceConfiguration</span></span>&#123;</span><br><span class="line">   </span><br><span class="line">   <span class="meta">@Profile(&quot;development&quot;)</span>      <span class="comment">//开发数据源</span></span><br><span class="line">   <span class="meta">@Bean</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span>  DataSource  <span class="title">embeddedDataSource</span><span class="params">()</span></span>&#123;   </span><br><span class="line">      <span class="keyword">return</span>  <span class="keyword">new</span>  EmbeddedDatabaseBuilder()</span><br><span class="line">         .setType(EmbeddedDatabaseType.H2)</span><br><span class="line">         .addScript(<span class="string">&quot;classpath:schema.sql&quot;</span>)</span><br><span class="line">         .addScript(<span class="string">&quot;classpath:test-data.sql&quot;</span>)</span><br><span class="line">         .build();</span><br><span class="line">                   &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Profile(&quot;qa&quot;)</span>                     <span class="comment">//QA数据源</span></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span>  DataSource  <span class="title">Data</span><span class="params">()</span></span>&#123;</span><br><span class="line">       BasicDataSource  ds =  <span class="keyword">new</span> BasicDataSource();</span><br><span class="line">          ds.setDriverClassName(<span class="string">&quot;org.h2.Driver&quot;</span>);           <span class="comment">//指定JDBC驱动类的全限定类名。</span></span><br><span class="line">          ds.setUrl(<span class="string">&quot;jdbc:h2:tcp//localhost/~/spitter&quot;</span>) ;   <span class="comment">//设置了JDBC的URL。</span></span><br><span class="line">          ds.setUsername(<span class="string">&quot;sa&quot;</span>);          <span class="comment">//用于认证</span></span><br><span class="line">          ds.setPassword(<span class="string">&quot; &quot;</span>);           <span class="comment">//用于认证</span></span><br><span class="line">          ds.setInitialSize(<span class="number">5</span>);          <span class="comment">//池子启动时创建的连接数量</span></span><br><span class="line">          ds.setMaxActive(<span class="number">10</span>);           <span class="comment">//同一时间可从池里分配的最多连接数</span></span><br><span class="line">            <span class="keyword">return</span>  ds;</span><br><span class="line">                   &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Profile(&quot;production&quot;)</span>          <span class="comment">//生产环境的数据源</span></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span>  DataSource    <span class="title">dataScoure</span><span class="params">()</span></span>&#123;</span><br><span class="line">        JndiObjectFactoryBean  jndiObjectFB  =  <span class="keyword">new</span>  JndiObjectFactoryBean();</span><br><span class="line">        JndiObjectFB.setJndiName(<span class="string">&quot;jdbc/SpitterDS&quot;</span>);</span><br><span class="line">        JndiObjectFB.setResourceRef(ture);</span><br><span class="line">        JndiObjectFB.setProxyInterface(javax.sql.DataSource.class);</span><br><span class="line">           <span class="keyword">return</span>   jndiObjectFB;</span><br><span class="line">     &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>还可以使用XML配置</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">beans------</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">beans</span> <span class="attr">profile</span>=<span class="string">&quot;development&quot;</span>&gt;</span>       //开发数据源       </span><br><span class="line">   <span class="tag">&lt;<span class="name">jdbc:embedded-database</span>  <span class="attr">id</span>=<span class="string">&quot;dataSource&quot;</span>  <span class="attr">type</span>=<span class="string">&quot;H2&quot;</span>&gt;</span>   //type为H2，表明是嵌入式H2数据库</span><br><span class="line">   <span class="tag">&lt;<span class="name">jdbc:script</span>  <span class="attr">location</span>=<span class="string">&quot;com/habuma/spitter/db/jdbc/schema.sql&quot;</span> /&gt;</span>   //引用数据库中创建表的SQL</span><br><span class="line">   <span class="tag">&lt;<span class="name">jdbc:script</span>  <span class="attr">location</span>=<span class="string">&quot;com/habuma/spitter/db/jdbc/test-data.sql&quot;</span> /&gt;</span> //将测试数据填充到数据库中</span><br><span class="line">   <span class="tag">&lt;/<span class="name">jdbc:embedded-database</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">beans</span> <span class="attr">profile</span>=<span class="string">&quot;qa&quot;</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;dataSource&quot;</span>   <span class="attr">class</span>=<span class="string">&quot;org.springframework.jdbc.datasource.DriverMangerDataSource&quot;</span></span></span><br><span class="line"><span class="tag">     <span class="attr">p:driverClassName</span>=<span class="string">&quot;org.h2.Driver&quot;</span>      //指定<span class="attr">JDBC</span>驱动类的全限定类名     </span></span><br><span class="line"><span class="tag">     <span class="attr">p:url</span>=<span class="string">&quot;jdbc:h2:tcp//localhost/~/spitter&quot;</span>      //设置了<span class="attr">JDBC</span>的<span class="attr">URL</span>。</span></span><br><span class="line"><span class="tag">     <span class="attr">p:username</span>=<span class="string">&quot;sa&quot;</span>         //用于认证</span></span><br><span class="line"><span class="tag">     <span class="attr">p:password</span>=<span class="string">&quot; &quot;</span>  /&gt;</span>      //用于认证</span><br><span class="line">   <span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">beans</span> <span class="attr">profile</span>=<span class="string">&quot;production&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">jee:jndi-lookup</span>  <span class="attr">id</span>=<span class="string">&quot;dataScoure&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">jndi-name</span>=<span class="string">&quot;/jdbc/SpitterDS&quot;</span>    //<span class="attr">jndi-name</span>属性用于指定<span class="attr">JNDI</span>中资源的名称。</span></span><br><span class="line"><span class="tag">       <span class="attr">resource-ref</span>=<span class="string">&quot;true&quot;</span> /&gt;</span>         //运行在java应用服务器将resource-ref设置为true，</span><br><span class="line">                                      //这样给定的jndi-name会自动添加&quot;java:comp/env/&quot;前缀。</span><br><span class="line">    <span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>现在我们已经通过数据源建立了与数据库的连接，接下来要实际访问数据库了。Spring提供了多种数据库的方式包括JDBC,Hibernate,以及java持久化API（JPA）。</p>
+<h3 id="10-3-在Spring中使用JDBC"><a href="#10-3-在Spring中使用JDBC" class="headerlink" title="10.3.在Spring中使用JDBC"></a>10.3.在Spring中使用JDBC</h3><h4 id="10-3-1-应对时刻的JDBC代码"><a href="#10-3-1-应对时刻的JDBC代码" class="headerlink" title="10.3.1.应对时刻的JDBC代码"></a>10.3.1.应对时刻的JDBC代码</h4><p>如果使用JDBC往数据库中插入数据，那么以下代码你肯定不陌生。使用JDBC在数据库里插入一行数据。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String SQL_INSERT_SPITTER=</span><br><span class="line">    <span class="string">&quot;insert into spitter(username,password,fullname)  values(?,?,?)&quot;</span>;</span><br><span class="line"><span class="keyword">private</span> DataSource dataSource;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addSpitter</span><span class="params">(Spitter spitter)</span></span>&#123;</span><br><span class="line">    Connection conn = <span class="keyword">null</span>;</span><br><span class="line">    PreparedStatement stmt = <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">try</span>&#123;</span><br><span class="line">        conn = dataSource.getConnection();  <span class="comment">//获取连接</span></span><br><span class="line">        stmt = conn.prepareStatement(SQL_INSERT_SPITTER);  <span class="comment">//创建语句</span></span><br><span class="line">        stmt.setString(<span class="number">1</span>,spitter.getUsername());   <span class="comment">//绑定参数，下面也是</span></span><br><span class="line">        stmt.setString(<span class="number">1</span>,spitter.getPassword());</span><br><span class="line">        stmt.setString(<span class="number">1</span>,spitter.getUsername());</span><br><span class="line">        stmt.execute();   <span class="comment">//执行语句</span></span><br><span class="line">    &#125;<span class="keyword">catch</span> (SQLException e)&#123;</span><br><span class="line">        --------          <span class="comment">//处理异常</span></span><br><span class="line">    &#125;<span class="keyword">finally</span>&#123;</span><br><span class="line">    -------清理资源</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用JDBC来更新数据库中Spitter表的一行。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String SQL_UPDATE_SPITTER=</span><br><span class="line">    <span class="string">&quot;update spitter set username = ?,password = ?,fullname=?&quot;</span>+<span class="string">&quot;where id = ?&quot;</span>;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">saveSpitter</span><span class="params">(Spitter spitter)</span></span>&#123;</span><br><span class="line">    Connection conn = <span class="keyword">null</span>;</span><br><span class="line">    PreparedStatement stmt = <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">try</span>&#123;</span><br><span class="line">        conn = dataSource.getConnection();  <span class="comment">//获取连接</span></span><br><span class="line">        stmt = conn.prepareStatement(SQL_UPDATA_SPITTER);  <span class="comment">//创建语句</span></span><br><span class="line">        stmt.setString(<span class="number">1</span>,spitter.getUsername());   <span class="comment">//绑定参数，下面也是</span></span><br><span class="line">        stmt.setString(<span class="number">1</span>,spitter.getPassword());</span><br><span class="line">        stmt.setString(<span class="number">1</span>,spitter.getUsername());</span><br><span class="line">        stmt.execute();   <span class="comment">//执行语句</span></span><br><span class="line">    &#125;<span class="keyword">catch</span> (SQLException e)&#123;</span><br><span class="line">        --------          <span class="comment">//处理异常</span></span><br><span class="line">    &#125;<span class="keyword">finally</span>&#123;</span><br><span class="line">    -------清理资源</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用JDBC从数据库中查询一行数据。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String SQL_SELECT_SPITTER=</span><br><span class="line">    <span class="string">&quot;select id,username,fullname from spitter where id = ?&quot;</span>;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">findOne</span><span class="params">(<span class="keyword">long</span> id)</span></span>&#123;</span><br><span class="line">    Connection conn = <span class="keyword">null</span>;</span><br><span class="line">    PreparedStatement stmt = <span class="keyword">null</span>;</span><br><span class="line">    ResultSet rs = <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">try</span>&#123;</span><br><span class="line">        conn = dataSource.getConnection();  <span class="comment">//获取连接</span></span><br><span class="line">        stmt = conn.prepareStatement(SQL_SELECT_SPITTER);  <span class="comment">//创建语句</span></span><br><span class="line">        stmt.setLong(<span class="number">1</span>,id)     <span class="comment">//绑定参数</span></span><br><span class="line">        rs=stmt.executeQuery();  <span class="comment">//执行语句</span></span><br><span class="line">        Spitter spitter = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">if</span>(rs.next())&#123;  <span class="comment">//处理结果</span></span><br><span class="line">            spitter = <span class="keyword">new</span> Spitter();</span><br><span class="line">            spitter.setId(rs.getLong(<span class="string">&quot;id&quot;</span>));</span><br><span class="line">            spitter.setUsername(rs.getString(<span class="string">&quot;username&quot;</span>));</span><br><span class="line">            spitter.setPassword(rs.getString(<span class="string">&quot;password&quot;</span>));</span><br><span class="line">            spitter.setFullName(rs.getString(<span class="string">&quot;fullname&quot;</span>));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> spitter;</span><br><span class="line">    &#125;<span class="keyword">catch</span> (SQLException e)&#123;</span><br><span class="line">        --------          <span class="comment">//处理异常</span></span><br><span class="line">    &#125;<span class="keyword">finally</span>&#123;</span><br><span class="line">    -------清理资源</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="10-3-2-使用JDBC模板"><a href="#10-3-2-使用JDBC模板" class="headerlink" title="10.3.2.使用JDBC模板"></a>10.3.2.使用JDBC模板</h4><p>Spring的JDBC框架承担了资源管理和异常处理的工作，从而简化了JDBC代码，让我们只需编写从数据库读写数据的必须代码。</p>
+<p>Spring为JDBC提供了三个模板类供选择。</p>
+<p>1.jdbcTemplate:  最基本的spring  JDBC模板，这个模板支持简单的JDBC数据库访问功能以及基于索引参数的查询。<br>2.NamedParameterJdbcTemplata:使用该模板类执行查询时可以将值以命名参数的形式绑定到SQL中，而不是简单的索引参数。<br>3.SimpleJdbcTemple:  该模板类利用java 5 的一些特性如自动装箱，泛型以及可变参数列表来简化JDBC模板的使用  </p>
+<p>对于大部分的JDBC任务来讲1就是最好的选择方案。3已经被弃用了。只有在需要使用命名参数的时候，才使用2。 </p>
+<h5 id="使用jdbcTemplate来插入数据"><a href="#使用jdbcTemplate来插入数据" class="headerlink" title="使用jdbcTemplate来插入数据"></a>使用jdbcTemplate来插入数据</h5><p>为了让jdbcTemplate正常工作，只需要为其设置DataSource就可以了。这使得在Spring中配置jdbcTemplate非常容易，如下@Bean方法所示。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@bean</span></span><br><span class="line"><span class="function"><span class="keyword">public</span>  class  jdbcTemplate    <span class="title">jdbcTemplate</span><span class="params">(DataSource   dataSource)</span></span>&#123;  <span class="comment">//DataSource通过构造器注入进来</span></span><br><span class="line">    <span class="keyword">return</span>  <span class="keyword">new</span>  JdbcTemplate(dataSource);   </span><br><span class="line">      &#125; </span><br></pre></td></tr></table></figure>
+
+<p>这里引用的dataSource bean可以是java.sql.DatSource的任意实现，比如之前创建的数据源。现在我们可以将jdbcTemplate装配到Repository中并使用它来访问数据库。例如SpitterRepository使用了JdbcTemplate。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Repository</span>               <span class="comment">//表明它会在组件扫描的时候自动创建。</span></span><br><span class="line"><span class="keyword">public</span>   <span class="class"><span class="keyword">class</span>  <span class="title">JdbcSpitterRepository</span>  <span class="keyword">implements</span>  <span class="title">SpitterRepository</span></span>&#123;</span><br><span class="line">   <span class="keyword">private</span>  JdbcOperations   jdbcOperations;</span><br><span class="line">    <span class="meta">@Autowired</span>    <span class="comment">//JdbcOperations是一个接口，定义了jdbcTemplate所实现的操作。</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span>  <span class="title">JdbcSpitterRepository</span><span class="params">(JdbcOperations   JdbcOperations)</span></span>&#123;</span><br><span class="line">      <span class="keyword">this</span>.JdbcOperations=JdbcOperations;</span><br><span class="line">                             &#125;</span><br><span class="line">    --------</span><br><span class="line">                         &#125;</span><br></pre></td></tr></table></figure>
+
+<p>作为另外一种组件扫描和自动装配的方案，我们可以将jdbcSpitterRepository显示声明为Spring中的bean。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@bean</span></span><br><span class="line"><span class="function"><span class="keyword">public</span>  SpitterRepository  <span class="title">spitterRepository</span><span class="params">(JdbcTemplate  jdbcTemplate)</span></span>&#123;</span><br><span class="line">   <span class="keyword">return</span> <span class="keyword">new</span>  JdbcSpitterRepository(jdbcTemplate)；</span><br><span class="line">       &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>在Repository中具备可用的jdbcTemplate后，我们可以极大的简化基于jdbcTemplate的addSpitter()方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span>   <span class="keyword">void</span>  <span class="title">addSpitter</span><span class="params">(Spitter  spitter)</span></span>&#123;</span><br><span class="line">      jdbcOperations.update(INSERT_SPITTER,</span><br><span class="line">          spitter.getUsername(),</span><br><span class="line">          spitter.getPassword(),</span><br><span class="line">          spitter.getFullName().</span><br><span class="line">          spitter.getEmail(),</span><br><span class="line">          spitter.isUpdateByEmail()    )</span><br><span class="line">       &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>当updata()方法被调用的时候jdbcTemplate就会获取连接，创建语句并执行插入SQL。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span>   class   <span class="title">findOne</span><span class="params">(<span class="keyword">long</span>  id)</span></span>&#123;</span><br><span class="line">   <span class="keyword">return</span>  jdbcOperations.queryForObject(              <span class="comment">//查询Spitter，使用queryForObject方法。</span></span><br><span class="line">        SELECT_SPITTER_BY_ID，<span class="keyword">new</span>  SpitterRowMapper(),</span><br><span class="line">               id );<span class="comment">//将查结果映射到对象</span></span><br><span class="line">             &#125;</span><br><span class="line">  <span class="keyword">private</span>   <span class="keyword">static</span>   <span class="keyword">final</span>  <span class="class"><span class="keyword">class</span>  <span class="title">SpitterRowMapper</span>   <span class="keyword">implements</span>     <span class="title">RowMapper</span>&lt;<span class="title">Spitter</span>&gt;</span>&#123;</span><br><span class="line">         <span class="function"><span class="keyword">public</span>   Spitter   <span class="title">mapRow</span><span class="params">(ResultSet   rs,  <span class="keyword">int</span>   rowNum)</span>    <span class="keyword">throws</span>  SQLException</span>&#123;</span><br><span class="line">              <span class="keyword">return</span>  <span class="keyword">new</span>   Spitter(                <span class="comment">//绑定参数</span></span><br><span class="line">                                   rs.getLong(<span class="string">&quot;id&quot;</span>),</span><br><span class="line">                                   rs.getString(<span class="string">&quot;usename&quot;</span>),</span><br><span class="line">                                   rs.getString(<span class="string">&quot;password&quot;</span>),</span><br><span class="line">                                   rs.getString(<span class="string">&quot;fullName&quot;</span>),</span><br><span class="line">                                   rs.getString(<span class="string">&quot;email&quot;</span>),</span><br><span class="line">                                   rs.getString(<span class="string">&quot;updateByEmail&quot;</span>)   );</span><br><span class="line">                             &#125; </span><br><span class="line">                                  &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>在这个findOne()方法中使用了jdbcTemplate的queryForObject()方法来从数据库查询Spitter。queryForObject方法有三个参数：<br> 1.String对象，包含了要从数据库中查找数据的SQL；<br> 2.RowMapper对象，用来从ResultSet中提取数据并构建域对象（本例中为Spitter）；<br> 3.可变参数列表，列出了要绑定到查询上的索引参数值。</p>
+<h5 id="使用命名参数"><a href="#使用命名参数" class="headerlink" title="使用命名参数"></a>使用命名参数</h5><p>在之前的代码中，addSpitter()方法使用了索引参数，这意味着我们需要留意查询中参数的顺序，在将值传递给update()方法的时候要保证正确的顺序。</p>
+<p>除了这种方法外，我们还可以使用命名参数，命名参数可以赋予SQL中的每个参数一个明确的名字，在绑定值到查询语句的时候就通过该名字来引用参数。假设SQL_INSERT_SPITTER查询语句是这样的。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String SQL_INSERT_SPITTER=</span><br><span class="line">    <span class="string">&quot;insert into spitter(username,password,fullname)&quot;</span> +</span><br><span class="line">    <span class="string">&quot;values(:username, :password, :fullname)&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+<p>使用命名参数查询，绑定值的顺序就不重要了，我们可以按照名字来绑定值。</p>
+<p>NamedParameterJdbcTemplate是一个特殊的JDBC模板，它支持使用命名参数。在Spring中，NamedParameterJdbcTemplate的声明方式与常规的jdbcTemplate几乎完全相同。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="function"><span class="keyword">public</span>  <span class="title">NamedParameterJdbcTemplate</span><span class="params">(DataSource  dataSource)</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span>  <span class="keyword">new</span>  NamedParameterJdbcTemplate(dataSource);                                                                                                             &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>在这里，我们将NamedParameterJdbcOperations(NamedParameterJdbcTemplate所实现的接口)注入到Repository中，用它来替代jdbcOperations。现在的addSpitter()方法如下。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span>  <span class="keyword">static</span>  <span class="keyword">final</span>  String INSERT_SPITTER =</span><br><span class="line">   <span class="string">&quot;insert  into  Spitter” +</span></span><br><span class="line"><span class="string">    &quot;</span>(username,password,fullname,email,updateByEmail)<span class="string">&quot; +</span></span><br><span class="line"><span class="string">   &quot;</span>values<span class="string">&quot;  +</span></span><br><span class="line"><span class="string">     &quot;</span>(:username, :password, :funllname, :email,  :updateByEmail)<span class="string">&quot;;</span></span><br><span class="line"><span class="string">                   </span></span><br><span class="line"><span class="string">public   void  addSpitter(Spitter  spitter)&#123;</span></span><br><span class="line"><span class="string">    Map&lt;String,Object&gt; paramMap = new  HashMap&lt;String, Object&gt;();</span></span><br><span class="line"><span class="string">     paramMap.put(&quot;</span>username<span class="string">&quot;, spitter.getUsername());        //绑定参数</span></span><br><span class="line"><span class="string">     paramMap.put (&quot;</span>password<span class="string">&quot;, spitter.getPassword());</span></span><br><span class="line"><span class="string">     paramMap.put(&quot;</span>fullname<span class="string">&quot;, spitter.getFullName());</span></span><br><span class="line"><span class="string">     paramMap.put (&quot;</span>email<span class="string">&quot;, spitter.getEmail());</span></span><br><span class="line"><span class="string">     paramMap.put (&quot;</span>updateByEmail<span class="string">&quot;, spitter.isUpdateByEmail());  </span></span><br><span class="line"><span class="string">    </span></span><br><span class="line"><span class="string">     jdbcOperations.update(INSERT_SPITTER,paramMap);      //执行数据时插入</span></span><br><span class="line"><span class="string"> &#125;</span></span><br></pre></td></tr></table></figure>
+
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/10/06/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E7%AC%AC%E5%8D%81%E4%BA%8C%E7%AB%A0/" class="archive-article-date">
-  	<time datetime="2020-10-06T08:03:19.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-10-06</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/10/06/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E7%AC%AC%E5%8D%81%E4%BA%8C%E7%AB%A0/">java核心技术第十二章</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">spring</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2020/09/06/spring%E5%AE%9E%E6%88%984%E7%AC%AC%E5%8D%81%E7%AB%A0/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/09/25/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E7%AC%AC%E5%85%AD%E7%AB%A0/" class="archive-article-date">
-  	<time datetime="2020-09-25T11:01:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-09-25</time>
-</a>
+<nav id="article-nav">
+  
+    <a href="/2020/09/06/spring%E5%AE%9E%E6%88%984%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          spring实战4第十一章
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/09/06/spring%E5%AE%9E%E6%88%984%E7%AC%AC%E4%B9%9D%E7%AB%A0/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">spring实战4第九章</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/09/25/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E7%AC%AC%E5%85%AD%E7%AB%A0/">java核心技术第六章</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/09/25/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E7%AC%AC%E4%BA%94%E7%AB%A0/" class="archive-article-date">
-  	<time datetime="2020-09-25T11:00:50.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-09-25</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/09/25/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E7%AC%AC%E4%BA%94%E7%AB%A0/">java核心技术第五章</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/09/25/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E7%AC%AC%E5%9B%9B%E7%AB%A0/" class="archive-article-date">
-  	<time datetime="2020-09-25T11:00:35.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-09-25</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/09/25/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E7%AC%AC%E5%9B%9B%E7%AB%A0/">java核心技术第四章</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/09/25/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E7%AC%AC%E4%B8%89%E7%AB%A0/" class="archive-article-date">
-  	<time datetime="2020-09-25T11:00:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-09-25</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/09/25/java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E7%AC%AC%E4%B8%89%E7%AB%A0/">java核心技术第三章</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/09/12/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A21-26%E7%AB%A0/" class="archive-article-date">
-  	<time datetime="2020-09-12T03:10:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-09-12</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/09/12/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A21-26%E7%AB%A0/">MySQL必知必会21-26章</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">MySQL</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/09/12/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A15-20%E7%AB%A0/" class="archive-article-date">
-  	<time datetime="2020-09-12T03:10:14.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-09-12</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/09/12/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A15-20%E7%AB%A0/">MySQL必知必会15-20章</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">MySQL</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/09/11/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A10-14%E7%AB%A0/" class="archive-article-date">
-  	<time datetime="2020-09-11T03:21:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-09-11</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/09/11/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A10-14%E7%AB%A0/">MySQL必知必会10-14章</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">MySQL</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/09/10/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A4-9%E7%AB%A0/" class="archive-article-date">
-  	<time datetime="2020-09-10T09:00:50.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-09-10</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/09/10/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A4-9%E7%AB%A0/">MySQL必知必会4-9章</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">MySQL</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/09/10/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A1-3%E7%AB%A0/" class="archive-article-date">
-  	<time datetime="2020-09-10T06:20:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-09-10</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/09/10/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A1-3%E7%AB%A0/">MySQL必知必会1-3章</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">MySQL</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/archives/page/2/">2</a><a class="page-number" href="/archives/page/3/">3</a><a class="extend next" rel="next" href="/archives/page/2/">Next &amp;raquo;</a>
-    </nav>
   
 
 
@@ -556,8 +419,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
