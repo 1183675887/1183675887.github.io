@@ -6,18 +6,25 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://example.com">
-  <title>Hexo</title>
+  <title>ssm实战项目文档 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="个人博客">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://example.com/index.html">
+  <meta name="description" content="SSM整合项目文档">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ssm实战项目文档">
+<meta property="og:url" content="http://example.com/2020/10/31/ssm%E5%AE%9E%E6%88%98%E9%A1%B9%E7%9B%AE%E6%96%87%E6%A1%A3/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="个人博客">
+<meta property="og:description" content="SSM整合项目文档">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s1.ax1x.com/2020/10/31/BUAxde.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/10/31/BUEZdg.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/10/31/BUEnij.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/10/31/BUEMzq.png">
+<meta property="article:published_time" content="2020-10-31T02:10:12.000Z">
+<meta property="article:modified_time" content="2020-10-31T02:36:14.359Z">
 <meta property="article:author" content="renzhicheng">
-<meta property="article:tag" content="后端博客">
+<meta property="article:tag" content="SSM">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s1.ax1x.com/2020/10/31/BUAxde.png">
   
     <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -134,16 +141,14 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="post-ssm实战项目文档" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+            <article id="post-ssm实战项目文档" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/10/31/ssm%E5%AE%9E%E6%88%98%E9%A1%B9%E7%9B%AE%E6%96%87%E6%A1%A3/">ssm实战项目文档</a>
+    <h1 class="article-title" itemprop="name">
+      ssm实战项目文档
     </h1>
   
 
@@ -156,12 +161,205 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="SSM整合项目文档"><a href="#SSM整合项目文档" class="headerlink" title="SSM整合项目文档"></a>SSM整合项目文档</h2>
-        
-          <a class="article-more-a" href="/2020/10/31/ssm%E5%AE%9E%E6%88%98%E9%A1%B9%E7%9B%AE%E6%96%87%E6%A1%A3/#more">more >></a>
-        
+        <h2 id="SSM整合项目文档"><a href="#SSM整合项目文档" class="headerlink" title="SSM整合项目文档"></a>SSM整合项目文档</h2><a id="more"></a>
+
+<h3 id="1-开发环境配置"><a href="#1-开发环境配置" class="headerlink" title="1.开发环境配置"></a>1.开发环境配置</h3><ul>
+<li><p>IDEA</p>
+</li>
+<li><p>MySQL 5.7.19</p>
+</li>
+<li><p>Tomcat 9</p>
+</li>
+<li><p>Maven 3.6</p>
+<p>要求：</p>
+</li>
+<li><p>需要熟练掌握MySQL数据库，Spring，JavaWeb及MyBatis知识，简单的前端知识；</p>
+</li>
+</ul>
+<h3 id="2-数据库创建"><a href="#2-数据库创建" class="headerlink" title="2.数据库创建"></a>2.数据库创建</h3><blockquote>
+<p>数据库环境</p>
+</blockquote>
+<p>创建一个存放书籍数据的数据库表</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">CREATE DATABASE &#96;ssmbuild&#96;;</span><br><span class="line"></span><br><span class="line">USE &#96;ssmbuild&#96;;</span><br><span class="line"></span><br><span class="line">DROP TABLE IF EXISTS &#96;books&#96;;</span><br><span class="line"></span><br><span class="line">CREATE TABLE &#96;books&#96; (</span><br><span class="line">&#96;bookID&#96; INT(10) NOT NULL AUTO_INCREMENT COMMENT &#39;书id&#39;,</span><br><span class="line">&#96;bookName&#96; VARCHAR(100) NOT NULL COMMENT &#39;书名&#39;,</span><br><span class="line">&#96;bookCounts&#96; INT(11) NOT NULL COMMENT &#39;数量&#39;,</span><br><span class="line">&#96;detail&#96; VARCHAR(200) NOT NULL COMMENT &#39;描述&#39;,</span><br><span class="line">KEY &#96;bookID&#96; (&#96;bookID&#96;)</span><br><span class="line">) ENGINE&#x3D;INNODB DEFAULT CHARSET&#x3D;utf8</span><br><span class="line"></span><br><span class="line">INSERT  INTO &#96;books&#96;(&#96;bookID&#96;,&#96;bookName&#96;,&#96;bookCounts&#96;,&#96;detail&#96;)VALUES</span><br><span class="line">(1,&#39;Java&#39;,1,&#39;从入门到放弃&#39;),</span><br><span class="line">(2,&#39;MySQL&#39;,10,&#39;从删库到跑路&#39;),</span><br><span class="line">(3,&#39;Linux&#39;,5,&#39;从进门到进牢&#39;);</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-搭配基本项目构造"><a href="#3-搭配基本项目构造" class="headerlink" title="3.搭配基本项目构造"></a>3.搭配基本项目构造</h3><blockquote>
+<p>基本环境搭建</p>
+</blockquote>
+<p>1、新建一Maven项目！ssmbuild ， 添加web的支持</p>
+<p>2、导入相关的pom依赖！在pom.xml中导入。pom.xml建立项目就有。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">    </span><br><span class="line">   <span class="comment">&lt;!--Junit单元测试--&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>junit<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>junit<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">version</span>&gt;</span>4.12<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    </span><br><span class="line">   <span class="comment">&lt;!--数据库驱动--&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>mysql<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mysql-connector-java<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">version</span>&gt;</span>5.1.47<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    </span><br><span class="line">   <span class="comment">&lt;!-- 数据库连接池 --&gt;</span> </span><br><span class="line">   <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.mchange<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>c3p0<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">version</span>&gt;</span>0.9.5.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">   <span class="comment">&lt;!--Servlet - JSP --&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>javax.servlet<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>servlet-api<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.5<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    </span><br><span class="line">   <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>javax.servlet.jsp<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jsp-api<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    </span><br><span class="line">   <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>javax.servlet<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jstl<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">   <span class="comment">&lt;!--Mybatis--&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.mybatis<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mybatis<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.5.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    </span><br><span class="line">   <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.mybatis<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mybatis-spring<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.0.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">   <span class="comment">&lt;!--Spring--&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-webmvc<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">version</span>&gt;</span>5.1.9.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    </span><br><span class="line">   <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-jdbc<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">version</span>&gt;</span>5.1.9.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>3、Maven资源过滤设置,也在pom.xml中写入。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">build</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">resources</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">resource</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">directory</span>&gt;</span>src/main/java<span class="tag">&lt;/<span class="name">directory</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">includes</span>&gt;</span></span><br><span class="line">               <span class="tag">&lt;<span class="name">include</span>&gt;</span>**/*.properties<span class="tag">&lt;/<span class="name">include</span>&gt;</span></span><br><span class="line">               <span class="tag">&lt;<span class="name">include</span>&gt;</span>**/*.xml<span class="tag">&lt;/<span class="name">include</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;/<span class="name">includes</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">filtering</span>&gt;</span>false<span class="tag">&lt;/<span class="name">filtering</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;/<span class="name">resource</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">resource</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">directory</span>&gt;</span>src/main/resources<span class="tag">&lt;/<span class="name">directory</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">includes</span>&gt;</span></span><br><span class="line">               <span class="tag">&lt;<span class="name">include</span>&gt;</span>**/*.properties<span class="tag">&lt;/<span class="name">include</span>&gt;</span></span><br><span class="line">               <span class="tag">&lt;<span class="name">include</span>&gt;</span>**/*.xml<span class="tag">&lt;/<span class="name">include</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;/<span class="name">includes</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">filtering</span>&gt;</span>false<span class="tag">&lt;/<span class="name">filtering</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;/<span class="name">resource</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">resources</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">build</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>4、建立基本结构和配置框架！</p>
+<ul>
+<li><p>com.kuang.pojo(实体类层，在java包下建立).与数据库表一一对应。</p>
+</li>
+<li><p>com.kuang.dao(持久层，在java包下建立).</p>
+</li>
+<li><p>com.kuang.service(业务层，在java包下建立).</p>
+</li>
+<li><p>com.kuang.controller(表现层，在java包下建立).</p>
+</li>
+<li><p>mybatis-config.xml(配置文件，在resource包下建立).</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">configuration</span></span></span><br><span class="line"><span class="meta">       <span class="meta-keyword">PUBLIC</span> <span class="meta-string">&quot;-//mybatis.org//DTD Config 3.0//EN&quot;</span></span></span><br><span class="line"><span class="meta">       <span class="meta-string">&quot;http://mybatis.org/dtd/mybatis-3-config.dtd&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>applicationContext.xml(配置文件，在resource包下建立).</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">xmlns</span>=<span class="string">&quot;http://www.springframework.org/schema/beans&quot;</span></span></span><br><span class="line"><span class="tag">      <span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span></span><br><span class="line"><span class="tag">      <span class="attr">xsi:schemaLocation</span>=<span class="string">&quot;http://www.springframework.org/schema/beans</span></span></span><br><span class="line"><span class="tag"><span class="string">       http://www.springframework.org/schema/beans/spring-beans.xsd&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="4-Mybatis层搭建"><a href="#4-Mybatis层搭建" class="headerlink" title="4.Mybatis层搭建"></a>4.Mybatis层搭建</h3><blockquote>
+<p>Mybatis层编写</p>
+</blockquote>
+<p>1、数据库配置文件 <strong>database.properties</strong>（在resource包下建立）。与数据库连接。</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">jdbc.driver</span>=<span class="string">com.mysql.jdbc.Driver</span></span><br><span class="line"><span class="meta">jdbc.url</span>=<span class="string">jdbc:mysql://localhost:3306/ssmbuild?useSSL=true&amp;useUnicode=true&amp;characterEncoding=utf8</span></span><br><span class="line"><span class="meta">jdbc.username</span>=<span class="string">root</span></span><br><span class="line"><span class="meta">jdbc.password</span>=<span class="string">123456</span></span><br></pre></td></tr></table></figure>
+
+<p>2、IDEA关联数据库</p>
+<p>3、编写MyBatis的核心配置文件。在mybatis-config.xml中编写。（在resource包下）。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">configuration</span></span></span><br><span class="line"><span class="meta">       <span class="meta-keyword">PUBLIC</span> <span class="meta-string">&quot;-//mybatis.org//DTD Config 3.0//EN&quot;</span></span></span><br><span class="line"><span class="meta">       <span class="meta-string">&quot;http://mybatis.org/dtd/mybatis-3-config.dtd&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line"></span><br><span class="line">   <span class="comment">&lt;!--  mybatis自动扫描包中的类，自动定义别名，别名是类名(首字母大写或小写都可以,一般用小写)  定义别名后，直接resultType中使用别名--&gt;</span></span><br><span class="line">   </span><br><span class="line">   <span class="tag">&lt;<span class="name">typeAliases</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">package</span> <span class="attr">name</span>=<span class="string">&quot;com.kuang.pojo&quot;</span>/&gt;</span>  //pojo为实体类位置包</span><br><span class="line">   <span class="tag">&lt;/<span class="name">typeAliases</span>&gt;</span></span><br><span class="line">   </span><br><span class="line">    <span class="comment">&lt;!-- 标签中配置的是我们定义的 xml 文件,Mybatis 加载 mybatis-config.xml 中的 &lt;mappers&gt; 标签</span></span><br><span class="line"><span class="comment">   主要解析加载两大块内容：XML和class文件,XML和Class文件通过class的全类名进行关联。</span></span><br><span class="line"><span class="comment">   同时 class 中的方法定义会与 XML 中定义的 SQL 语句通过方法名进行关联。</span></span><br><span class="line"><span class="comment">   以上两大内容组成了调用 class 接口，实现 SQL 操作数据库的基础数据。--&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">mappers</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">mapper</span> <span class="attr">resource</span>=<span class="string">&quot;com/kuang/dao/BookMapper.xml&quot;</span>/&gt;</span> //BookMapper.xml为dao层接口的具体实现。</span><br><span class="line">   <span class="tag">&lt;/<span class="name">mappers</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>4、编写数据库对应的实体类 com.kuang.pojo.Books。使用lombok插件！(IDEA要自己下载)在pojo包下建立Books类。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.kuang.pojo;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> lombok.AllArgsConstructor;</span><br><span class="line"><span class="keyword">import</span> lombok.Data;</span><br><span class="line"><span class="keyword">import</span> lombok.NoArgsConstructor;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="meta">@AllArgsConstructor</span></span><br><span class="line"><span class="meta">@NoArgsConstructor</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Books</span> </span>&#123;</span><br><span class="line">   </span><br><span class="line">   <span class="keyword">private</span> <span class="keyword">int</span> bookID;</span><br><span class="line">   <span class="keyword">private</span> String bookName;</span><br><span class="line">   <span class="keyword">private</span> <span class="keyword">int</span> bookCounts;</span><br><span class="line">   <span class="keyword">private</span> String detail;</span><br><span class="line">   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>5、编写Dao层的 Mapper接口！（在dao包下建立）bookMapper接口。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.kuang.dao;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.kuang.pojo.Books;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">BookMapper</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">   <span class="comment">//增加一个Book</span></span><br><span class="line">   <span class="function"><span class="keyword">int</span> <span class="title">addBook</span><span class="params">(Books book)</span></span>;</span><br><span class="line"></span><br><span class="line">   <span class="comment">//根据id删除一个Book</span></span><br><span class="line">   <span class="function"><span class="keyword">int</span> <span class="title">deleteBookById</span><span class="params">(<span class="keyword">int</span> id)</span></span>;</span><br><span class="line"></span><br><span class="line">   <span class="comment">//更新Book</span></span><br><span class="line">   <span class="function"><span class="keyword">int</span> <span class="title">updateBook</span><span class="params">(Books books)</span></span>;</span><br><span class="line"></span><br><span class="line">   <span class="comment">//根据id查询,返回一个Book</span></span><br><span class="line">   <span class="function">Books <span class="title">queryBookById</span><span class="params">(<span class="keyword">int</span> id)</span></span>;</span><br><span class="line"></span><br><span class="line">   <span class="comment">//查询全部Book,返回list集合</span></span><br><span class="line">   <span class="function">List&lt;Books&gt; <span class="title">queryAllBook</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>6、编写接口对应的 Mapper.xml 文件。需要导入MyBatis的包。（在dao包下建立）bookMapper.xml</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">mapper</span></span></span><br><span class="line"><span class="meta">       <span class="meta-keyword">PUBLIC</span> <span class="meta-string">&quot;-//mybatis.org//DTD Mapper 3.0//EN&quot;</span></span></span><br><span class="line"><span class="meta">       <span class="meta-string">&quot;http://mybatis.org/dtd/mybatis-3-mapper.dtd&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!--Mapper.xml文件中的namespace，就是对应的接口的类路径--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">mapper</span> <span class="attr">namespace</span>=<span class="string">&quot;com.kuang.dao.BookMapper&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!--  Mapper接口中的方法名和Mapper.xml中定义的每个SQL的id相同--&gt;</span>    </span><br><span class="line">   <span class="comment">&lt;!--增加一个Book--&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--Mapper接口方法的输入参数类型和mapper.xml中定义的每个sql parameterType类型相同  --&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">insert</span> <span class="attr">id</span>=<span class="string">&quot;addBook&quot;</span> <span class="attr">parameterType</span>=<span class="string">&quot;Books&quot;</span>&gt;</span>  //parameterType：指定输入参数类型</span><br><span class="line">      insert into ssmbuild.books(bookName,bookCounts,detail)</span><br><span class="line">      values (#&#123;bookName&#125;, #&#123;bookCounts&#125;, #&#123;detail&#125;)</span><br><span class="line">   <span class="tag">&lt;/<span class="name">insert</span>&gt;</span>  </span><br><span class="line">    <span class="comment">&lt;!-- 在MyBatis中提供了读取参数的内容到SQL语句中,#&#123;参数名&#125; :将参数的内容添加到sql语句中指定位置，实体类对象或则 Map 集合读取内容 --&gt;</span></span><br><span class="line">   <span class="comment">&lt;!--根据id删除一个Book--&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">delete</span> <span class="attr">id</span>=<span class="string">&quot;deleteBookById&quot;</span> <span class="attr">parameterType</span>=<span class="string">&quot;int&quot;</span>&gt;</span></span><br><span class="line">      delete from ssmbuild.books where bookID=#&#123;bookID&#125;</span><br><span class="line">   <span class="tag">&lt;/<span class="name">delete</span>&gt;</span></span><br><span class="line"></span><br><span class="line">   <span class="comment">&lt;!--更新Book--&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">update</span> <span class="attr">id</span>=<span class="string">&quot;updateBook&quot;</span> <span class="attr">parameterType</span>=<span class="string">&quot;Books&quot;</span>&gt;</span></span><br><span class="line">      update ssmbuild.books</span><br><span class="line">      set bookName = #&#123;bookName&#125;,bookCounts = #&#123;bookCounts&#125;,detail = #&#123;detail&#125;</span><br><span class="line">      where bookID = #&#123;bookID&#125;</span><br><span class="line">   <span class="tag">&lt;/<span class="name">update</span>&gt;</span>  </span><br><span class="line">    <span class="comment">&lt;!--   Mapper接口中的方法的输入输出参数类型和mapper.xml中定义的每个sql的resultType的类型相同  --&gt;</span></span><br><span class="line">   <span class="comment">&lt;!--根据id查询,返回一个Book--&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">&quot;queryBookById&quot;</span> <span class="attr">resultType</span>=<span class="string">&quot;Books&quot;</span>&gt;</span>  //resultType：指定输出结果类型</span><br><span class="line">      select * from ssmbuild.books</span><br><span class="line">      where bookID = #&#123;bookID&#125;</span><br><span class="line">   <span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br><span class="line"></span><br><span class="line">   <span class="comment">&lt;!--查询全部Book--&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">&quot;queryAllBook&quot;</span> <span class="attr">resultType</span>=<span class="string">&quot;Books&quot;</span>&gt;</span></span><br><span class="line">      SELECT * from ssmbuild.books</span><br><span class="line">   <span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">mapper</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>7、编写Service层的接口和实现类</p>
+<p>编写接口BookService。(在service包下建立)。与DAO层的mapper接口一一对应。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.kuang.service;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.kuang.pojo.Books;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"></span><br><span class="line"><span class="comment">//BookService:底下需要去实现,调用dao层</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">BookService</span> </span>&#123;</span><br><span class="line">   <span class="comment">//增加一个Book</span></span><br><span class="line">   <span class="function"><span class="keyword">int</span> <span class="title">addBook</span><span class="params">(Books book)</span></span>;</span><br><span class="line">   <span class="comment">//根据id删除一个Book</span></span><br><span class="line">   <span class="function"><span class="keyword">int</span> <span class="title">deleteBookById</span><span class="params">(<span class="keyword">int</span> id)</span></span>;</span><br><span class="line">   <span class="comment">//更新Book</span></span><br><span class="line">   <span class="function"><span class="keyword">int</span> <span class="title">updateBook</span><span class="params">(Books books)</span></span>;</span><br><span class="line">   <span class="comment">//根据id查询,返回一个Book</span></span><br><span class="line">   <span class="function">Books <span class="title">queryBookById</span><span class="params">(<span class="keyword">int</span> id)</span></span>;</span><br><span class="line">   <span class="comment">//查询全部Book,返回list集合</span></span><br><span class="line">   <span class="function">List&lt;Books&gt; <span class="title">queryAllBook</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>编写实现类BookServiceImpl类。(在service包下建立)。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.kuang.service;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.kuang.dao.BookMapper;</span><br><span class="line"><span class="keyword">import</span> com.kuang.pojo.Books;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BookServiceImpl</span> <span class="keyword">implements</span> <span class="title">BookService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">   <span class="comment">//调用dao层的操作，设置一个set接口，方便Spring管理</span></span><br><span class="line">   <span class="keyword">private</span> BookMapper bookMapper;</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setBookMapper</span><span class="params">(BookMapper bookMapper)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">this</span>.bookMapper = bookMapper;</span><br><span class="line">  &#125;</span><br><span class="line">    </span><br><span class="line">   <span class="comment">//方法实现，返回DAO层的接口方法。</span></span><br><span class="line">   </span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">addBook</span><span class="params">(Books book)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">return</span> bookMapper.addBook(book);</span><br><span class="line">  &#125;</span><br><span class="line">   </span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">deleteBookById</span><span class="params">(<span class="keyword">int</span> id)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">return</span> bookMapper.deleteBookById(id);</span><br><span class="line">  &#125;</span><br><span class="line">   </span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">updateBook</span><span class="params">(Books books)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">return</span> bookMapper.updateBook(books);</span><br><span class="line">  &#125;</span><br><span class="line">   </span><br><span class="line">   <span class="function"><span class="keyword">public</span> Books <span class="title">queryBookById</span><span class="params">(<span class="keyword">int</span> id)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">return</span> bookMapper.queryBookById(id);</span><br><span class="line">  &#125;</span><br><span class="line">   </span><br><span class="line">   <span class="function"><span class="keyword">public</span> List&lt;Books&gt; <span class="title">queryAllBook</span><span class="params">()</span> </span>&#123;</span><br><span class="line">       <span class="keyword">return</span> bookMapper.queryAllBook();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>OK，到此，底层需求操作编写完毕！</strong></p>
+<h3 id="5-Spring层搭建"><a href="#5-Spring层搭建" class="headerlink" title="5.Spring层搭建"></a>5.Spring层搭建</h3><blockquote>
+<p>Spring层</p>
+</blockquote>
+<p>1、配置<strong>Spring整合MyBatis</strong>，我们这里数据源使用c3p0连接池；</p>
+<p>2、我们去编写<strong>Spring整合Mybatis</strong>的相关的配置文件；spring-dao.xml。(在recource包下建立)spring-dao.xml。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">xmlns</span>=<span class="string">&quot;http://www.springframework.org/schema/beans&quot;</span></span></span><br><span class="line"><span class="tag">      <span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span></span><br><span class="line"><span class="tag">      <span class="attr">xmlns:context</span>=<span class="string">&quot;http://www.springframework.org/schema/context&quot;</span></span></span><br><span class="line"><span class="tag">      <span class="attr">xsi:schemaLocation</span>=<span class="string">&quot;http://www.springframework.org/schema/beans</span></span></span><br><span class="line"><span class="tag"><span class="string">       http://www.springframework.org/schema/beans/spring-beans.xsd</span></span></span><br><span class="line"><span class="tag"><span class="string">       http://www.springframework.org/schema/context</span></span></span><br><span class="line"><span class="tag"><span class="string">       https://www.springframework.org/schema/context/spring-context.xsd&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">   <span class="comment">&lt;!-- 配置整合mybatis --&gt;</span></span><br><span class="line">   <span class="comment">&lt;!-- 1.关联数据库文件 --&gt;</span></span><br><span class="line">   <span class="comment">&lt;!-- 我们在基于spring开发应用的时候,一般都会将数据库的配置放置在properties文件中.--&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 这里的location值为参数配置文件的位置，这样.properties文件就会被spring加载--&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">context:property-placeholder</span> <span class="attr">location</span>=<span class="string">&quot;classpath:database.properties&quot;</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">   <span class="comment">&lt;!-- 2.数据库连接池 --&gt;</span></span><br><span class="line">   <span class="comment">&lt;!--数据库连接池</span></span><br><span class="line"><span class="comment">       dbcp 半自动化操作 不能自动连接</span></span><br><span class="line"><span class="comment">       c3p0 自动化操作（自动的加载配置文件 并且设置到对象里面）</span></span><br><span class="line"><span class="comment">   --&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;dataSource&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.mchange.v2.c3p0.ComboPooledDataSource&quot;</span>&gt;</span></span><br><span class="line">       <span class="comment">&lt;!-- 配置连接池属性 --&gt;</span></span><br><span class="line">       </span><br><span class="line">       <span class="comment">&lt;!-- Value的值：$&#123;property : default_value&#125;，注入的是外部参数对应的property--&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;driverClass&quot;</span> <span class="attr">value</span>=<span class="string">&quot;$&#123;jdbc.driver&#125;&quot;</span>/&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;jdbcUrl&quot;</span> <span class="attr">value</span>=<span class="string">&quot;$&#123;jdbc.url&#125;&quot;</span>/&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;user&quot;</span> <span class="attr">value</span>=<span class="string">&quot;$&#123;jdbc.username&#125;&quot;</span>/&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;password&quot;</span> <span class="attr">value</span>=<span class="string">&quot;$&#123;jdbc.password&#125;&quot;</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">       <span class="comment">&lt;!-- c3p0连接池的私有属性 --&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;maxPoolSize&quot;</span> <span class="attr">value</span>=<span class="string">&quot;30&quot;</span>/&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;minPoolSize&quot;</span> <span class="attr">value</span>=<span class="string">&quot;10&quot;</span>/&gt;</span></span><br><span class="line">       <span class="comment">&lt;!-- 关闭连接后不自动commit --&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;autoCommitOnClose&quot;</span> <span class="attr">value</span>=<span class="string">&quot;false&quot;</span>/&gt;</span></span><br><span class="line">       <span class="comment">&lt;!-- 获取连接超时时间 --&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;checkoutTimeout&quot;</span> <span class="attr">value</span>=<span class="string">&quot;10000&quot;</span>/&gt;</span></span><br><span class="line">       <span class="comment">&lt;!-- 当获取连接失败重试次数 --&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;acquireRetryAttempts&quot;</span> <span class="attr">value</span>=<span class="string">&quot;2&quot;</span>/&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line">   <span class="comment">&lt;!-- 3.配置SqlSessionFactory对象 --&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;sqlSessionFactory&quot;</span> <span class="attr">class</span>=<span class="string">&quot;org.mybatis.spring.SqlSessionFactoryBean&quot;</span>&gt;</span></span><br><span class="line">       </span><br><span class="line">       <span class="comment">&lt;!-- 注入数据库连接池 --&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;dataSource&quot;</span> <span class="attr">ref</span>=<span class="string">&quot;dataSource&quot;</span>/&gt;</span></span><br><span class="line">       </span><br><span class="line">       <span class="comment">&lt;!-- 配置MyBaties全局配置文件:mybatis-config.xml --&gt;</span></span><br><span class="line">       <span class="comment">&lt;!--属性configLocation，它用来指定 MyBatis 的 XML 配置文件路径 --&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;configLocation&quot;</span> <span class="attr">value</span>=<span class="string">&quot;classpath:mybatis-config.xml&quot;</span>/&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line">   <span class="comment">&lt;!-- 4.配置扫描Dao接口包，动态实现Dao层的接口注入到spring容器中 --&gt;</span></span><br><span class="line">   <span class="comment">&lt;!--解释 ：https://www.cnblogs.com/jpfss/p/7799806.html--&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">&quot;org.mybatis.spring.mapper.MapperScannerConfigurer&quot;</span>&gt;</span></span><br><span class="line">       <span class="comment">&lt;!-- 注入sqlSessionFactory --&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;sqlSessionFactoryBeanName&quot;</span> <span class="attr">value</span>=<span class="string">&quot;sqlSessionFactory&quot;</span>/&gt;</span></span><br><span class="line">       <span class="comment">&lt;!-- 给出需要扫描Dao接口包 --&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;basePackage&quot;</span> <span class="attr">value</span>=<span class="string">&quot;com.kuang.dao&quot;</span>/&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>3、<strong>Spring整合service层</strong>的配置文件spring-service.xml。(在recource包下建立)spring-service.xml。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">xmlns</span>=<span class="string">&quot;http://www.springframework.org/schema/beans&quot;</span></span></span><br><span class="line"><span class="tag">      <span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span></span><br><span class="line"><span class="tag">      <span class="attr">xmlns:context</span>=<span class="string">&quot;http://www.springframework.org/schema/context&quot;</span></span></span><br><span class="line"><span class="tag">      <span class="attr">xsi:schemaLocation</span>=<span class="string">&quot;http://www.springframework.org/schema/beans</span></span></span><br><span class="line"><span class="tag"><span class="string">   http://www.springframework.org/schema/beans/spring-beans.xsd</span></span></span><br><span class="line"><span class="tag"><span class="string">   http://www.springframework.org/schema/context</span></span></span><br><span class="line"><span class="tag"><span class="string">   http://www.springframework.org/schema/context/spring-context.xsd&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">   <span class="comment">&lt;!-- 扫描service相关的bean --&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--扫描到有@Component、@Controller、@Service 、@Repository等注解修饰的Java类，则将这些类注册为spring容器中的bean。--&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">context:component-scan</span> <span class="attr">base-package</span>=<span class="string">&quot;com.kuang.service&quot;</span> /&gt;</span>   //service层</span><br><span class="line"></span><br><span class="line">   <span class="comment">&lt;!--BookServiceImpl注入到IOC容器中--&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;BookServiceImpl&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.kuang.service.BookServiceImpl&quot;</span>&gt;</span> //service层的接口的实现类</span><br><span class="line">       <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;bookMapper&quot;</span> <span class="attr">ref</span>=<span class="string">&quot;bookMapper&quot;</span>/&gt;</span> //引入bookMapper接口</span><br><span class="line">   <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line">   <span class="comment">&lt;!-- 配置事务管理器 --&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;transactionManager&quot;</span> <span class="attr">class</span>=<span class="string">&quot;org.springframework.jdbc.datasource.DataSourceTransactionManager&quot;</span>&gt;</span></span><br><span class="line">       <span class="comment">&lt;!-- 注入数据库连接池 --&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;dataSource&quot;</span> <span class="attr">ref</span>=<span class="string">&quot;dataSource&quot;</span> /&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>Spring层搞定！再次理解一下，Spring就是一个大杂烩，一个容器！对吧！</p>
+<h3 id="6-SpringMVC层搭建"><a href="#6-SpringMVC层搭建" class="headerlink" title="6.SpringMVC层搭建"></a>6.SpringMVC层搭建</h3><p>1、编写web配置文件<strong>web.xml</strong>。（在WEB-INF包下建立jsp包，将web.xml放入jsp包中）需要IDEA添加web组件，这样就会自动创建WEB相关文件。创建方式为单机右键项目第二个选项勾上web。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">web-app</span> <span class="attr">xmlns</span>=<span class="string">&quot;http://xmlns.jcp.org/xml/ns/javaee&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">xsi:schemaLocation</span>=<span class="string">&quot;http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd&quot;</span></span></span><br><span class="line"><span class="tag">        <span class="attr">version</span>=<span class="string">&quot;4.0&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">   <span class="comment">&lt;!--DispatcherServlet--&gt;</span></span><br><span class="line">   <span class="comment">&lt;!--注册servlet组件的必须的四个节点，&lt;servlet-name&gt;，&lt;servlet-class&gt;，&lt;servlet-mapping&gt;，&lt;url-pattern&gt;--&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">servlet</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>DispatcherServlet<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span>  //注册servlet的名字</span><br><span class="line">       <span class="tag">&lt;<span class="name">servlet-class</span>&gt;</span>org.springframework.web.servlet.DispatcherServlet<span class="tag">&lt;/<span class="name">servlet-class</span>&gt;</span> //注册servlet的类地址</span><br><span class="line">       </span><br><span class="line">       <span class="tag">&lt;<span class="name">init-param</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">param-name</span>&gt;</span>contextConfigLocation<span class="tag">&lt;/<span class="name">param-name</span>&gt;</span></span><br><span class="line">           <span class="comment">&lt;!--一定要注意:我们这里加载的是总的配置文件，之前被这里坑了！--&gt;</span>  </span><br><span class="line">           <span class="tag">&lt;<span class="name">param-value</span>&gt;</span>classpath:applicationContext.xml<span class="tag">&lt;/<span class="name">param-value</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;/<span class="name">init-param</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">load-on-startup</span>&gt;</span>1<span class="tag">&lt;/<span class="name">load-on-startup</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">servlet</span>&gt;</span></span><br><span class="line">    </span><br><span class="line">   <span class="tag">&lt;<span class="name">servlet-mapping</span>&gt;</span>  //配置我们注册的组件的访问路径</span><br><span class="line">       <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>DispatcherServlet<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span> //于前面写的servlet一致</span><br><span class="line">       <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>/<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span>  //配置这个组件的访问路径</span><br><span class="line">   <span class="tag">&lt;/<span class="name">servlet-mapping</span>&gt;</span></span><br><span class="line"></span><br><span class="line">   <span class="comment">&lt;!--配置encodingFilter过滤器--&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">filter</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>encodingFilter<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">filter-class</span>&gt;</span></span><br><span class="line">          org.springframework.web.filter.CharacterEncodingFilter</span><br><span class="line">       <span class="tag">&lt;/<span class="name">filter-class</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">init-param</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">param-name</span>&gt;</span>encoding<span class="tag">&lt;/<span class="name">param-name</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">param-value</span>&gt;</span>utf-8<span class="tag">&lt;/<span class="name">param-value</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;/<span class="name">init-param</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">filter</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">filter-mapping</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>encodingFilter<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>/*<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">filter-mapping</span>&gt;</span></span><br><span class="line">   </span><br><span class="line">   <span class="comment">&lt;!--Session过期时间--&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">session-config</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">session-timeout</span>&gt;</span>15<span class="tag">&lt;/<span class="name">session-timeout</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">session-config</span>&gt;</span></span><br><span class="line">   </span><br><span class="line"><span class="tag">&lt;/<span class="name">web-app</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>2、编写spring mvc配置文件<strong>spring-mvc.xml</strong>。(在recource包下建立)spring-mvc.xml。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">xmlns</span>=<span class="string">&quot;http://www.springframework.org/schema/beans&quot;</span></span></span><br><span class="line"><span class="tag">      <span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span></span><br><span class="line"><span class="tag">      <span class="attr">xmlns:context</span>=<span class="string">&quot;http://www.springframework.org/schema/context&quot;</span></span></span><br><span class="line"><span class="tag">      <span class="attr">xmlns:mvc</span>=<span class="string">&quot;http://www.springframework.org/schema/mvc&quot;</span></span></span><br><span class="line"><span class="tag">      <span class="attr">xsi:schemaLocation</span>=<span class="string">&quot;http://www.springframework.org/schema/beans</span></span></span><br><span class="line"><span class="tag"><span class="string">   http://www.springframework.org/schema/beans/spring-beans.xsd</span></span></span><br><span class="line"><span class="tag"><span class="string">   http://www.springframework.org/schema/context</span></span></span><br><span class="line"><span class="tag"><span class="string">   http://www.springframework.org/schema/context/spring-context.xsd</span></span></span><br><span class="line"><span class="tag"><span class="string">   http://www.springframework.org/schema/mvc</span></span></span><br><span class="line"><span class="tag"><span class="string">   https://www.springframework.org/schema/mvc/spring-mvc.xsd&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">   <span class="comment">&lt;!-- 配置SpringMVC --&gt;</span></span><br><span class="line">   <span class="comment">&lt;!-- 1.开启SpringMVC注解驱动 --&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">mvc:annotation-driven</span> /&gt;</span></span><br><span class="line">   <span class="comment">&lt;!-- 2.静态资源默认servlet配置--&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">mvc:default-servlet-handler</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">   <span class="comment">&lt;!-- 3.配置jsp 显示ViewResolver视图解析器 --&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">&quot;org.springframework.web.servlet.view.InternalResourceViewResolver&quot;</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;viewClass&quot;</span> <span class="attr">value</span>=<span class="string">&quot;org.springframework.web.servlet.view.JstlView&quot;</span> /&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;prefix&quot;</span> <span class="attr">value</span>=<span class="string">&quot;/WEB-INF/jsp/&quot;</span> /&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;suffix&quot;</span> <span class="attr">value</span>=<span class="string">&quot;.jsp&quot;</span> /&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line">   <span class="comment">&lt;!-- 4.扫描web相关的bean --&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">context:component-scan</span> <span class="attr">base-package</span>=<span class="string">&quot;com.kuang.controller&quot;</span> /&gt;</span>  </span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>3、<strong>Spring配置整合文件，applicationContext.xml</strong>。(在recource包下建立)applicationContext.xml。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">xmlns</span>=<span class="string">&quot;http://www.springframework.org/schema/beans&quot;</span></span></span><br><span class="line"><span class="tag">      <span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span></span><br><span class="line"><span class="tag">      <span class="attr">xsi:schemaLocation</span>=<span class="string">&quot;http://www.springframework.org/schema/beans</span></span></span><br><span class="line"><span class="tag"><span class="string">       http://www.springframework.org/schema/beans/spring-beans.xsd&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">   <span class="tag">&lt;<span class="name">import</span> <span class="attr">resource</span>=<span class="string">&quot;spring-dao.xml&quot;</span>/&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">import</span> <span class="attr">resource</span>=<span class="string">&quot;spring-service.xml&quot;</span>/&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">import</span> <span class="attr">resource</span>=<span class="string">&quot;spring-mvc.xml&quot;</span>/&gt;</span></span><br><span class="line">   </span><br><span class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>配置文件，暂时结束！</p>
+<h3 id="7-Controller-和-视图层搭建"><a href="#7-Controller-和-视图层搭建" class="headerlink" title="7.Controller 和 视图层搭建"></a>7.Controller 和 视图层搭建</h3><p>1、编写BookController 类 ，（在controller包下建立）BookController类。 方法一：查询全部书籍。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="meta">@RequestMapping(&quot;/book&quot;)</span>  <span class="comment">//映射请求</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BookController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">   <span class="meta">@Autowired</span></span><br><span class="line">   <span class="meta">@Qualifier(&quot;BookServiceImpl&quot;)</span> <span class="comment">//指定要装配bean的名字</span></span><br><span class="line">   <span class="keyword">private</span> BookService bookService; </span><br><span class="line"></span><br><span class="line">   <span class="meta">@RequestMapping(&quot;/allBook&quot;)</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> String <span class="title">list</span><span class="params">(Model model)</span> </span>&#123;</span><br><span class="line">       List&lt;Books&gt; list = bookService.queryAllBook();</span><br><span class="line">       model.addAttribute(<span class="string">&quot;list&quot;</span>, list);</span><br><span class="line">       <span class="keyword">return</span> <span class="string">&quot;allBook&quot;</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>2、编写首页 <strong>index.jsp</strong>。(在WEB-INF包下)</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">&lt;%@ page language=<span class="string">&quot;java&quot;</span> contentType=<span class="string">&quot;text/html; charset=UTF-8&quot;</span> pageEncoding=<span class="string">&quot;UTF-8&quot;</span> %&gt;</span><br><span class="line">&lt;!DOCTYPE HTML&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">   &lt;title&gt;首页&lt;/title&gt;</span><br><span class="line">   &lt;style type=<span class="string">&quot;text/css&quot;</span>&gt;</span><br><span class="line">       a &#123;</span><br><span class="line">           text-decoration: none;</span><br><span class="line">           color: black;</span><br><span class="line">           font-size: <span class="number">18</span>px;</span><br><span class="line">      &#125;</span><br><span class="line">       h3 &#123;</span><br><span class="line">           width: <span class="number">180</span>px;</span><br><span class="line">           height: <span class="number">38</span>px;</span><br><span class="line">           margin: <span class="number">100</span>px auto;</span><br><span class="line">           text-align: center;</span><br><span class="line">           line-height: <span class="number">38</span>px;</span><br><span class="line">           background: deepskyblue;</span><br><span class="line">           border-radius: <span class="number">4</span>px;</span><br><span class="line">      &#125;</span><br><span class="line">   &lt;/style&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line"></span><br><span class="line">&lt;h3&gt;</span><br><span class="line">    &lt;!--JSP取得绝对路径的方法    /book/allBook为controller层中类的对应的映射请求 --&gt;</span><br><span class="line">   &lt;a href=&quot;$&#123;pageContext.request.contextPath&#125;/book/allBook&quot;&gt;点击进入列表页&lt;/a&gt;</span><br><span class="line">&lt;/h3&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+
+<p>3、编写书籍列表页面 <strong>allbook.jsp</strong>。（在WEB-INF包下建立jsp包），在jsp包下建立allbook.jsp</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line">&lt;%@ taglib prefix=<span class="string">&quot;c&quot;</span> uri=<span class="string">&quot;http://java.sun.com/jsp/jstl/core&quot;</span> %&gt;</span><br><span class="line">&lt;%@ page contentType=<span class="string">&quot;text/html;charset=UTF-8&quot;</span> language=<span class="string">&quot;java&quot;</span> %&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">   &lt;title&gt;书籍列表&lt;/title&gt;</span><br><span class="line">   &lt;meta name=<span class="string">&quot;viewport&quot;</span> content=<span class="string">&quot;width=device-width, initial-scale=1.0&quot;</span>&gt;</span><br><span class="line">   &lt;!-- 引入 Bootstrap --&gt;</span><br><span class="line">   &lt;link href=<span class="string">&quot;https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css&quot;</span> rel=<span class="string">&quot;stylesheet&quot;</span>&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line"></span><br><span class="line">&lt;div <span class="class"><span class="keyword">class</span></span>=<span class="string">&quot;container&quot;</span>&gt;</span><br><span class="line"></span><br><span class="line">   &lt;div <span class="class"><span class="keyword">class</span></span>=<span class="string">&quot;row clearfix&quot;</span>&gt;</span><br><span class="line">       &lt;div <span class="class"><span class="keyword">class</span></span>=<span class="string">&quot;col-md-12 column&quot;</span>&gt;</span><br><span class="line">           &lt;div <span class="class"><span class="keyword">class</span></span>=<span class="string">&quot;page-header&quot;</span>&gt;</span><br><span class="line">               &lt;h1&gt;</span><br><span class="line">                   &lt;small&gt;书籍列表 —— 显示所有书籍&lt;/small&gt;</span><br><span class="line">               &lt;/h1&gt;</span><br><span class="line">           &lt;/div&gt;</span><br><span class="line">       &lt;/div&gt;</span><br><span class="line">   &lt;/div&gt;</span><br><span class="line"></span><br><span class="line">   &lt;div <span class="class"><span class="keyword">class</span></span>=<span class="string">&quot;row&quot;</span>&gt;</span><br><span class="line">       &lt;div <span class="class"><span class="keyword">class</span></span>=<span class="string">&quot;col-md-4 column&quot;</span>&gt;</span><br><span class="line">           &lt;a class=&quot;btn btn-primary&quot; href=&quot;$&#123;pageContext.request.contextPath&#125;/book/toAddBook&quot;&gt;新增&lt;/a&gt;</span><br><span class="line">       &lt;/div&gt;</span><br><span class="line">   &lt;/div&gt;</span><br><span class="line"></span><br><span class="line">   &lt;div <span class="class"><span class="keyword">class</span></span>=<span class="string">&quot;row clearfix&quot;</span>&gt;</span><br><span class="line">       &lt;div <span class="class"><span class="keyword">class</span></span>=<span class="string">&quot;col-md-12 column&quot;</span>&gt;</span><br><span class="line">           &lt;table <span class="class"><span class="keyword">class</span></span>=<span class="string">&quot;table table-hover table-striped&quot;</span>&gt;</span><br><span class="line">               &lt;thead&gt;</span><br><span class="line">               &lt;tr&gt;</span><br><span class="line">                   &lt;th&gt;书籍编号&lt;/th&gt;</span><br><span class="line">                   &lt;th&gt;书籍名字&lt;/th&gt;</span><br><span class="line">                   &lt;th&gt;书籍数量&lt;/th&gt;</span><br><span class="line">                   &lt;th&gt;书籍详情&lt;/th&gt;</span><br><span class="line">                   &lt;th&gt;操作&lt;/th&gt;</span><br><span class="line">               &lt;/tr&gt;</span><br><span class="line">               &lt;/thead&gt;</span><br><span class="line"></span><br><span class="line">               &lt;tbody&gt;</span><br><span class="line">               &lt;c:forEach <span class="keyword">var</span>=<span class="string">&quot;book&quot;</span> items=<span class="string">&quot;$&#123;requestScope.get(&#x27;list&#x27;)&#125;&quot;</span>&gt;</span><br><span class="line">                   &lt;tr&gt;</span><br><span class="line">                       &lt;td&gt;$&#123;book.getBookID()&#125;&lt;/td&gt;</span><br><span class="line">                       &lt;td&gt;$&#123;book.getBookName()&#125;&lt;/td&gt;</span><br><span class="line">                       &lt;td&gt;$&#123;book.getBookCounts()&#125;&lt;/td&gt;</span><br><span class="line">                       &lt;td&gt;$&#123;book.getDetail()&#125;&lt;/td&gt;</span><br><span class="line">                       &lt;td&gt;</span><br><span class="line">                           &lt;a href=&quot;$&#123;pageContext.request.contextPath&#125;/book/toUpdateBook?id=$&#123;book.getBookID()&#125;&quot;&gt;更改&lt;/a&gt; |</span><br><span class="line">                           &lt;a href=&quot;$&#123;pageContext.request.contextPath&#125;/book/del/$&#123;book.getBookID()&#125;&quot;&gt;删除&lt;/a&gt;</span><br><span class="line">                       &lt;/td&gt;</span><br><span class="line">                   &lt;/tr&gt;</span><br><span class="line">               &lt;/c:forEach&gt;</span><br><span class="line">               &lt;/tbody&gt;</span><br><span class="line">           &lt;/table&gt;</span><br><span class="line">       &lt;/div&gt;</span><br><span class="line">   &lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+
+<p>4、BookController 类编写 ， 方法二：添加书籍。添加到controller包下的bookController类中。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping(&quot;/toAddBook&quot;)</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">toAddPaper</span><span class="params">()</span> </span>&#123;</span><br><span class="line">   <span class="keyword">return</span> <span class="string">&quot;addBook&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@RequestMapping(&quot;/addBook&quot;)</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">addPaper</span><span class="params">(Books books)</span> </span>&#123;</span><br><span class="line">   System.out.println(books);</span><br><span class="line">   bookService.addBook(books);</span><br><span class="line">   <span class="keyword">return</span> <span class="string">&quot;redirect:/book/allBook&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>5、添加书籍页面：<strong>addBook.jsp</strong>。在WEB-INF包下建立jsp包，在jsp包下建立addBook.jsp。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">&lt;%@ taglib prefix=<span class="string">&quot;c&quot;</span> uri=<span class="string">&quot;http://java.sun.com/jsp/jstl/core&quot;</span> %&gt;</span><br><span class="line">&lt;%@ page contentType=<span class="string">&quot;text/html;charset=UTF-8&quot;</span> language=<span class="string">&quot;java&quot;</span> %&gt;</span><br><span class="line"></span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">   &lt;title&gt;新增书籍&lt;/title&gt;</span><br><span class="line">   &lt;meta name=<span class="string">&quot;viewport&quot;</span> content=<span class="string">&quot;width=device-width, initial-scale=1.0&quot;</span>&gt;</span><br><span class="line">   &lt;!-- 引入 Bootstrap --&gt;</span><br><span class="line">   &lt;link href=<span class="string">&quot;https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css&quot;</span> rel=<span class="string">&quot;stylesheet&quot;</span>&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;div <span class="class"><span class="keyword">class</span></span>=<span class="string">&quot;container&quot;</span>&gt;</span><br><span class="line"></span><br><span class="line">   &lt;div <span class="class"><span class="keyword">class</span></span>=<span class="string">&quot;row clearfix&quot;</span>&gt;</span><br><span class="line">       &lt;div <span class="class"><span class="keyword">class</span></span>=<span class="string">&quot;col-md-12 column&quot;</span>&gt;</span><br><span class="line">           &lt;div <span class="class"><span class="keyword">class</span></span>=<span class="string">&quot;page-header&quot;</span>&gt;</span><br><span class="line">               &lt;h1&gt;</span><br><span class="line">                   &lt;small&gt;新增书籍&lt;/small&gt;</span><br><span class="line">               &lt;/h1&gt;</span><br><span class="line">           &lt;/div&gt;</span><br><span class="line">       &lt;/div&gt;</span><br><span class="line">   &lt;/div&gt;</span><br><span class="line">   &lt;form action=<span class="string">&quot;$&#123;pageContext.request.contextPath&#125;/book/addBook&quot;</span> method=<span class="string">&quot;post&quot;</span>&gt;</span><br><span class="line">      书籍名称：&lt;input type=<span class="string">&quot;text&quot;</span> name=<span class="string">&quot;bookName&quot;</span>&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;</span><br><span class="line">      书籍数量：&lt;input type=<span class="string">&quot;text&quot;</span> name=<span class="string">&quot;bookCounts&quot;</span>&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;</span><br><span class="line">      书籍详情：&lt;input type=<span class="string">&quot;text&quot;</span> name=<span class="string">&quot;detail&quot;</span>&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;</span><br><span class="line">       &lt;input type=<span class="string">&quot;submit&quot;</span> value=<span class="string">&quot;添加&quot;</span>&gt;</span><br><span class="line">   &lt;/form&gt;</span><br><span class="line"></span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+
+<p>6、BookController 类编写 ， 方法三：修改书籍。添加到controller包下的bookController类中。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping(&quot;/toUpdateBook&quot;)</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">toUpdateBook</span><span class="params">(Model model, <span class="keyword">int</span> id)</span> </span>&#123;</span><br><span class="line">   Books books = bookService.queryBookById(id);</span><br><span class="line">   System.out.println(books);</span><br><span class="line">   model.addAttribute(<span class="string">&quot;book&quot;</span>,books );</span><br><span class="line">   <span class="keyword">return</span> <span class="string">&quot;updateBook&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@RequestMapping(&quot;/updateBook&quot;)</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">updateBook</span><span class="params">(Model model, Books book)</span> </span>&#123;</span><br><span class="line">   System.out.println(book);</span><br><span class="line">   bookService.updateBook(book);</span><br><span class="line">   Books books = bookService.queryBookById(book.getBookID());</span><br><span class="line">   model.addAttribute(<span class="string">&quot;books&quot;</span>, books);</span><br><span class="line">   <span class="keyword">return</span> <span class="string">&quot;redirect:/book/allBook&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>7、修改书籍页面  <strong>updateBook.jsp</strong>。在WEB-INF包下建立jsp包，在jsp包下建立updateBook.jsp。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">&lt;%@ taglib prefix=<span class="string">&quot;c&quot;</span> uri=<span class="string">&quot;http://java.sun.com/jsp/jstl/core&quot;</span> %&gt;</span><br><span class="line">&lt;%@ page contentType=<span class="string">&quot;text/html;charset=UTF-8&quot;</span> language=<span class="string">&quot;java&quot;</span> %&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">   &lt;title&gt;修改信息&lt;/title&gt;</span><br><span class="line">   &lt;meta name=<span class="string">&quot;viewport&quot;</span> content=<span class="string">&quot;width=device-width, initial-scale=1.0&quot;</span>&gt;</span><br><span class="line">   &lt;!-- 引入 Bootstrap --&gt;</span><br><span class="line">   &lt;link href=<span class="string">&quot;https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css&quot;</span> rel=<span class="string">&quot;stylesheet&quot;</span>&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;div <span class="class"><span class="keyword">class</span></span>=<span class="string">&quot;container&quot;</span>&gt;</span><br><span class="line"></span><br><span class="line">   &lt;div <span class="class"><span class="keyword">class</span></span>=<span class="string">&quot;row clearfix&quot;</span>&gt;</span><br><span class="line">       &lt;div <span class="class"><span class="keyword">class</span></span>=<span class="string">&quot;col-md-12 column&quot;</span>&gt;</span><br><span class="line">           &lt;div <span class="class"><span class="keyword">class</span></span>=<span class="string">&quot;page-header&quot;</span>&gt;</span><br><span class="line">               &lt;h1&gt;</span><br><span class="line">                   &lt;small&gt;修改信息&lt;/small&gt;</span><br><span class="line">               &lt;/h1&gt;</span><br><span class="line">           &lt;/div&gt;</span><br><span class="line">       &lt;/div&gt;</span><br><span class="line">   &lt;/div&gt;</span><br><span class="line"></span><br><span class="line">   &lt;form action=<span class="string">&quot;$&#123;pageContext.request.contextPath&#125;/book/updateBook&quot;</span> method=<span class="string">&quot;post&quot;</span>&gt;</span><br><span class="line">       &lt;input type=<span class="string">&quot;hidden&quot;</span> name=<span class="string">&quot;bookID&quot;</span> value=<span class="string">&quot;$&#123;book.getBookID()&#125;&quot;</span>/&gt;</span><br><span class="line">      书籍名称：&lt;input type=<span class="string">&quot;text&quot;</span> name=<span class="string">&quot;bookName&quot;</span> value=<span class="string">&quot;$&#123;book.getBookName()&#125;&quot;</span>/&gt;</span><br><span class="line">      书籍数量：&lt;input type=<span class="string">&quot;text&quot;</span> name=<span class="string">&quot;bookCounts&quot;</span> value=<span class="string">&quot;$&#123;book.getBookCounts()&#125;&quot;</span>/&gt;</span><br><span class="line">      书籍详情：&lt;input type=<span class="string">&quot;text&quot;</span> name=<span class="string">&quot;detail&quot;</span> value=<span class="string">&quot;$&#123;book.getDetail() &#125;&quot;</span>/&gt;</span><br><span class="line">       &lt;input type=<span class="string">&quot;submit&quot;</span> value=<span class="string">&quot;提交&quot;</span>/&gt;</span><br><span class="line">   &lt;/form&gt;</span><br><span class="line"></span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+
+<p>8、BookController 类编写 ， 方法四：删除书籍</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping(&quot;/del/&#123;bookId&#125;&quot;)</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">deleteBook</span><span class="params">(<span class="meta">@PathVariable(&quot;bookId&quot;)</span> <span class="keyword">int</span> id)</span> </span>&#123;</span><br><span class="line">   bookService.deleteBookById(id);</span><br><span class="line">   <span class="keyword">return</span> <span class="string">&quot;redirect:/book/allBook&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>配置Tomcat，进行运行！</strong></p>
+<p>到目前为止，这个SSM项目整合已经完全的OK了，可以直接运行进行测试！这个练习十分的重要，大家需要保证，不看任何东西，自己也可以完整的实现出来！</p>
+<p><strong>项目结构图</strong> </p>
+<p><a target="_blank" rel="noopener" href="https://imgchr.com/i/BUAxde"><img src="https://s1.ax1x.com/2020/10/31/BUAxde.png" alt="BUAxde.png"></a></p>
+<p><a target="_blank" rel="noopener" href="https://imgchr.com/i/BUEZdg"><img src="https://s1.ax1x.com/2020/10/31/BUEZdg.png" alt="BUEZdg.png"></a></p>
+<h3 id="SSM框架下web项目的运行流程"><a href="#SSM框架下web项目的运行流程" class="headerlink" title="SSM框架下web项目的运行流程"></a>SSM框架下web项目的运行流程</h3><h4 id="1-SSM中各层作用及关系"><a href="#1-SSM中各层作用及关系" class="headerlink" title="1.SSM中各层作用及关系"></a>1.SSM中各层作用及关系</h4><h5 id="1-持久层：DAO层（mapper层）（属于mybatis模块）"><a href="#1-持久层：DAO层（mapper层）（属于mybatis模块）" class="headerlink" title="1.持久层：DAO层（mapper层）（属于mybatis模块）"></a>1.持久层：DAO层（mapper层）（属于mybatis模块）</h5><ul>
+<li>DAO层：主要负责与数据库进行交互设计，用来处理数据的持久化工作。</li>
+<li>DAO层的设计首先是设计DAO的接口，也就是项目中你看到的Dao包。</li>
+<li>然后在Spring的xml配置文件中定义此接口的实现类，就可在其他模块中调用此接口来进行数据业务的处理，而不用关心接口的具体实现类是哪个类，这里往往用到的就是反射机制，DAO层的jdbc.properties数据源配置，以及有 关数据库连接的参数都在Spring的配置文件中进行配置。</li>
+<li>ps:（有的项目里面Dao层，写成mapper，当成一个意思理解。）</li>
+</ul>
+<h5 id="2-业务层：Service层（属于spring模块）"><a href="#2-业务层：Service层（属于spring模块）" class="headerlink" title="2.业务层：Service层（属于spring模块）"></a>2.业务层：Service层（属于spring模块）</h5><ul>
+<li>Service层：主要负责业务模块的逻辑应用设计。也就是项目中你看到的Service包。</li>
+<li>Service层的设计首先是设计接口，再设计其实现的类。也就是项目中你看到的service+impl包。</li>
+<li>接着再在Spring的xml配置文件中配置其实现的关联。这样我们就可以在应用中调用Service接口来进行业务处理。</li>
+<li>最后通过调用DAO层已定义的接口，去实现Service具体的实现类。</li>
+<li>ps:(Service层的业务实现，具体要调用到已定义的DAO层的接口.)</li>
+</ul>
+<h5 id="3-控制层-表现层：Controller层（Handler层）-（属于springMVC模块）"><a href="#3-控制层-表现层：Controller层（Handler层）-（属于springMVC模块）" class="headerlink" title="3.控制层/表现层：Controller层（Handler层） （属于springMVC模块）"></a>3.控制层/表现层：Controller层（Handler层） （属于springMVC模块）</h5><ul>
+<li>Controller层：主要负责具体的业务模块流程控制，也就是你看到的controller包。</li>
+<li>Controller层通过要调用Service层的接口来控制业务流程，控制的配置也同样是在Spring的xml配置文件里面，针对具体的业务流程，会有不同的控制器。</li>
+</ul>
+<h5 id="4-View层-（属于springMVC模块）"><a href="#4-View层-（属于springMVC模块）" class="headerlink" title="4.View层 （属于springMVC模块）"></a>4.View层 （属于springMVC模块）</h5><ul>
+<li>负责前台jsp页面的展示，此层需要与Controller层结合起来开发。</li>
+<li>Jsp发送请求，controller接收请求，处理，返回，jsp回显数据。</li>
+</ul>
+<h4 id="2-三层架构运行流程"><a href="#2-三层架构运行流程" class="headerlink" title="2.三层架构运行流程"></a>2.三层架构运行流程</h4><p><a target="_blank" rel="noopener" href="https://imgchr.com/i/BUEnij"><img src="https://s1.ax1x.com/2020/10/31/BUEnij.png" alt="BUEnij.png"></a></p>
+<h4 id="3-各层之间的联系"><a href="#3-各层之间的联系" class="headerlink" title="3.各层之间的联系"></a>3.各层之间的联系</h4><ul>
+<li><p>DAO层，Service层这两个层次可以单独开发，互相的耦合度很低。</p>
+</li>
+<li><p>Controller，View层耦合度比较高，因而要结合在一起开发。也可以听当做两层来开发，这样，在层与层之前我们只需要知道接口的定义，调用接口即可完成所需要的逻辑单元应用，项目会显得清晰简单。</p>
+</li>
+<li><p>值得注意的是，Service逻辑层设计：</p>
+<ul>
+<li><p>Service层是建立在DAO层之上的，在Controller层之下。因而Service层应该既调用DAO层的接口，又提供接口给Controller层的类来进行调用，它处于一个中间层的位置。每个模型都有一个Service接口，每个接口分别封装各自的业务处理方法。</p>
+<p><a target="_blank" rel="noopener" href="https://imgchr.com/i/BUEMzq"><img src="https://s1.ax1x.com/2020/10/31/BUEMzq.png" alt="BUEMzq.png"></a></p>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="5-SSM框架实现一个web程序主要使用到如下三个技术："><a href="#5-SSM框架实现一个web程序主要使用到如下三个技术：" class="headerlink" title="5.SSM框架实现一个web程序主要使用到如下三个技术："></a>5.SSM框架实现一个web程序主要使用到如下三个技术：</h4><ol>
+<li>Spring：用到注解和自动装配，就是Spring的两个精髓IOC(反向控制)和 AOP(面向切面编程)。</li>
+<li>SpringMVC：用到了MVC模型，将流程控制代码放到Controller层处理，将业务逻辑代码放到Service层处理。</li>
+<li>Mybatis：用到了与数据库打交道的层面，dao（mapper）层，放在所有的逻辑之后，处理与数据库的CRUD相关的操作。</li>
+</ol>
+<p>比如你开发项目的时候，需要完成一个功能模块：</p>
+<ol>
+<li>先写实体类entity，定义对象的属性，（可以参照数据库中表的字段来设置，数据库的设计应该在所有编码开始之前）。</li>
+<li>写Mapper.xml（Mybatis），其中定义你的功能，对应要对数据库进行的那些操作，比如 insert、selectAll、selectByKey、delete、update等。</li>
+<li>写Mapper.java/Dao.java，将Mapper.xml中的操作按照id映射成Java函数。实际上就是Dao接口，二者选一即可。</li>
+<li>写Service.java，为控制层提供服务，接受控制层的参数，完成相应的功能，并返回给控制层。</li>
+<li>写Controller.java，连接页面请求和服务层，获取页面请求的参数，通过自动装配，映射不同的URL到相应的处理函数，并获取参数，对参数进行处理，之后传给服务层。</li>
+<li>写JSP页面调用，请求哪些参数，需要获取什么数据。</li>
+</ol>
+
       
 
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
       
     </div>
     <div class="article-info article-info-index">
@@ -181,16 +379,75 @@
       
 
       
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/10/31/ssm%E5%AE%9E%E6%88%98%E9%A1%B9%E7%9B%AE%E6%96%87%E6%A1%A3/">展开全文 >></a>
-        </p>
-      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2020/10/31/ssm%E5%AE%9E%E6%88%98%E9%A1%B9%E7%9B%AE%E6%96%87%E6%A1%A3/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2020/08/20/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A21-26%E7%AB%A0/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">MySQL必知必会21-26章</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -210,696 +467,14 @@
 
 
 
-
-  
-    <article id="post-MySQL必知必会21-26章" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/08/20/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A21-26%E7%AB%A0/">MySQL必知必会21-26章</a>
-    </h1>
-  
-
-        
-        <a href="/2020/08/20/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A21-26%E7%AB%A0/" class="archive-article-date">
-  	<time datetime="2020-08-20T07:30:26.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-20</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>这些章讲解创建和操纵表，使用视图，使用存储过程，使用游标，使用触发器，管理事务处理。</p>
-        
-          <a class="article-more-a" href="/2020/08/20/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A21-26%E7%AB%A0/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">MySQL</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/08/20/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A21-26%E7%AB%A0/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-MySQL必知必会15-20章" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/08/17/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A15-20%E7%AB%A0/">MySQL必知必会15-20章</a>
-    </h1>
-  
-
-        
-        <a href="/2020/08/17/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A15-20%E7%AB%A0/" class="archive-article-date">
-  	<time datetime="2020-08-17T06:23:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-17</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>这些章讲解联结表，组合查询，全文本搜索，插入数据，更新和删除数据。</p>
-        
-          <a class="article-more-a" href="/2020/08/17/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A15-20%E7%AB%A0/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">MySQL</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/08/17/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A15-20%E7%AB%A0/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-MySQL必知必会10-14章" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/08/15/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A10-14%E7%AB%A0/">MySQL必知必会10-14章</a>
-    </h1>
-  
-
-        
-        <a href="/2020/08/15/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A10-14%E7%AB%A0/" class="archive-article-date">
-  	<time datetime="2020-08-15T03:21:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-15</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>这些章讲解创建计算字段，使用数据处理函数，汇总数据，分组数据，使用子查询。</p>
-        
-          <a class="article-more-a" href="/2020/08/15/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A10-14%E7%AB%A0/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">MySQL</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/08/15/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A10-14%E7%AB%A0/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-MySQL必知必会4-9章" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/08/12/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A4-9%E7%AB%A0/">MySQL必知必会4-9章</a>
-    </h1>
-  
-
-        
-        <a href="/2020/08/12/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A4-9%E7%AB%A0/" class="archive-article-date">
-  	<time datetime="2020-08-12T02:00:50.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-12</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>这些章讲解检索数据，排序检索数据，过滤数据，数据过滤，用通配符过滤，用正则表达式进行搜索。</p>
-        
-          <a class="article-more-a" href="/2020/08/12/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A4-9%E7%AB%A0/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">MySQL</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/08/12/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A4-9%E7%AB%A0/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-MySQL必知必会1-3章" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/08/10/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A1-3%E7%AB%A0/">MySQL必知必会1-3章</a>
-    </h1>
-  
-
-        
-        <a href="/2020/08/10/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A1-3%E7%AB%A0/" class="archive-article-date">
-  	<time datetime="2020-08-10T06:15:35.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-10</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>这些章讲解了解SQL，使用MySQL。</p>
-        
-          <a class="article-more-a" href="/2020/08/10/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A1-3%E7%AB%A0/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">MySQL</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/08/10/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A1-3%E7%AB%A0/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-spring实战4第15章" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/07/11/spring%E5%AE%9E%E6%88%984%E7%AC%AC15%E7%AB%A0/">spring实战4第15章</a>
-    </h1>
-  
-
-        
-        <a href="/2020/07/11/spring%E5%AE%9E%E6%88%984%E7%AC%AC15%E7%AB%A0/" class="archive-article-date">
-  	<time datetime="2020-07-11T15:05:24.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-11</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="第十五章，使用远程服务"><a href="#第十五章，使用远程服务" class="headerlink" title="第十五章，使用远程服务"></a>第十五章，使用远程服务</h2><p>此章讲解Spring远程调用概览，使用RMI，使用Hessian和Burlap发布远程服务。</p>
-        
-          <a class="article-more-a" href="/2020/07/11/spring%E5%AE%9E%E6%88%984%E7%AC%AC15%E7%AB%A0/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">spring</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/07/11/spring%E5%AE%9E%E6%88%984%E7%AC%AC15%E7%AB%A0/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-spring实战4第14章" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/07/09/spring%E5%AE%9E%E6%88%984%E7%AC%AC14%E7%AB%A0/">spring实战4第14章</a>
-    </h1>
-  
-
-        
-        <a href="/2020/07/09/spring%E5%AE%9E%E6%88%984%E7%AC%AC14%E7%AB%A0/" class="archive-article-date">
-  	<time datetime="2020-07-09T12:15:45.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-09</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="第十四章，保护方法应用"><a href="#第十四章，保护方法应用" class="headerlink" title="第十四章，保护方法应用"></a>第十四章，保护方法应用</h2><p>此章讲解，使用注解保护方法，使用表达式实现方法级别的安全性</p>
-        
-          <a class="article-more-a" href="/2020/07/09/spring%E5%AE%9E%E6%88%984%E7%AC%AC14%E7%AB%A0/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">spring</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/07/09/spring%E5%AE%9E%E6%88%984%E7%AC%AC14%E7%AB%A0/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-spring实战4第13章" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/07/09/spring%E5%AE%9E%E6%88%984%E7%AC%AC13%E7%AB%A0/">spring实战4第13章</a>
-    </h1>
-  
-
-        
-        <a href="/2020/07/09/spring%E5%AE%9E%E6%88%984%E7%AC%AC13%E7%AB%A0/" class="archive-article-date">
-  	<time datetime="2020-07-09T06:15:20.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-09</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="第十三章，缓存数据"><a href="#第十三章，缓存数据" class="headerlink" title="第十三章，缓存数据"></a>第十三章，缓存数据</h2><p>此章讲解启动对缓存的支持，为方法添加注解以支持缓存，使用XML声明缓存。</p>
-        
-          <a class="article-more-a" href="/2020/07/09/spring%E5%AE%9E%E6%88%984%E7%AC%AC13%E7%AB%A0/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">spring</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/07/09/spring%E5%AE%9E%E6%88%984%E7%AC%AC13%E7%AB%A0/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-spring实战4第12章" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/07/08/spring%E5%AE%9E%E6%88%984%E7%AC%AC12%E7%AB%A0/">spring实战4第12章</a>
-    </h1>
-  
-
-        
-        <a href="/2020/07/08/spring%E5%AE%9E%E6%88%984%E7%AC%AC12%E7%AB%A0/" class="archive-article-date">
-  	<time datetime="2020-07-08T15:00:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-08</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="第十二章，使用NoSQL数据库"><a href="#第十二章，使用NoSQL数据库" class="headerlink" title="第十二章，使用NoSQL数据库"></a>第十二章，使用NoSQL数据库</h2><p>此章讲解使用MongoDB持久化文档数据，使用Neo4j操作图数据。使用Redis操作key-value数据。</p>
-        
-          <a class="article-more-a" href="/2020/07/08/spring%E5%AE%9E%E6%88%984%E7%AC%AC12%E7%AB%A0/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">spring</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/07/08/spring%E5%AE%9E%E6%88%984%E7%AC%AC12%E7%AB%A0/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
   
   
-    <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">Next &amp;raquo;</a>
-    </nav>
+  
+
+  
+
+  
+
   
 
 
@@ -922,8 +497,8 @@
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
