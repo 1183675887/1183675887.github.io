@@ -16,7 +16,7 @@
 <meta property="og:description" content="第五章，构建Spring Web应用程序此章讲解Spring MVC起步，编写基本的控制器，接受请求的输入，处理表单。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-07-06T10:45:13.000Z">
-<meta property="article:modified_time" content="2020-10-13T09:14:54.707Z">
+<meta property="article:modified_time" content="2020-11-14T14:14:29.512Z">
 <meta property="article:author" content="renzhicheng">
 <meta property="article:tag" content="spring">
 <meta name="twitter:card" content="summary">
@@ -81,7 +81,7 @@
 			</div>
 		</nav>
                                  <br<br><br><br<br><br><nav>
-                                           总文章数 23
+                                           总文章数 24
                                   </nav>
 	</header>		
 </div>
@@ -169,7 +169,7 @@
 <h3 id="5-1-Spring-MVC起步"><a href="#5-1-Spring-MVC起步" class="headerlink" title="5.1.Spring MVC起步"></a>5.1.Spring MVC起步</h3><p>spring将请求在调度Servlet，处理器映射（handler mapping），控制器以及视图解析器（view resolver）之间移动。</p>
 <p>请求是从客户端出发，经过Spring MVC中的组件，最终再返回到客户端的。</p>
 <h4 id="5-1-1-跟踪Spring-MVC的请求"><a href="#5-1-1-跟踪Spring-MVC的请求" class="headerlink" title="5.1.1.跟踪Spring MVC的请求"></a>5.1.1.跟踪Spring MVC的请求</h4><p>请求离开浏览器时，会带有用户请求内容的信息，至少包含请求的URL。过程分为7步。</p>
-<p>1.请求旅程的第一站是spring的DispatcherServlet（程序调度Servlet，前段控制器），spring MVC所有请求都会通过一个前段控制器（front controller）Servlet，前段控制器是常用的Web应用程序模式。。</p>
+<p>1.请求旅程的第一站是spring的DispatcherServlet（程序调度Servlet，前端控制器），spring MVC所有请求都会通过一个前段控制器（front controller）Servlet，前段控制器是常用的Web应用程序模式。。</p>
 <p>2.DispatcherServlet的任务是将请求发送给Spring MVC控制器（controller）,控制器是一个用于处理请求的spring组件，因为应用程序有可能会有多个控制器，因此DispatcherServlet会查询一个或多个处理器映射（handler mapping）来确定请求的下一站是哪里。处理器映射会根据请求所携带的URL信息来进行决策。</p>
 <p>3.一旦选择了合适的处理器，DispatcherServlet会将请求发送给选择的控制器，到了控制器，请求会卸下负载（用户提交的信息）并耐心等待控制器处理处理这些信息。</p>
 <p>4.控制器在完成逻辑处理后，通常会产生一些信息，这些信息需要返回给用户并在浏览器上显示。这些信息被称为模型（modle）。这些信息会以用户友好的方式进行格式化，所以，信息需要发送给一个视图（view）比如JSP。</p>
@@ -445,6 +445,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">SSM</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">mybatis</a>
               </li>
             
             <div class="clearfix"></div>
