@@ -77,7 +77,7 @@
 			</div>
 		</nav>
                                  <br<br><br><br<br><br><nav>
-                                           总文章数 25
+                                           总文章数 26
                                   </nav>
 	</header>		
 </div>
@@ -131,6 +131,92 @@
           </div>
           <div id="js-content" class="content-ll">
             
+  
+    <article id="post-spring-boot小技巧" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/11/30/spring-boot%E5%B0%8F%E6%8A%80%E5%B7%A7/">spring boot小技巧</a>
+    </h1>
+  
+
+        
+        <a href="/2020/11/30/spring-boot%E5%B0%8F%E6%8A%80%E5%B7%A7/" class="archive-article-date">
+  	<time datetime="2020-11-30T12:57:35.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-30</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="第二章"><a href="#第二章" class="headerlink" title="第二章"></a>第二章</h3><p>1.在application.properties中可以配置服务器端口号，修改上下文路径，配置URL编码</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#修改服务器端口号</span></span><br><span class="line"><span class="meta">server.port</span>=<span class="string">8081</span></span><br><span class="line"><span class="comment">#修改上下文路径</span></span><br><span class="line"><span class="meta">server.servlet.context-path</span>=<span class="string">/****</span></span><br><span class="line"><span class="comment">#配置URL编码</span></span><br><span class="line"><span class="meta">server.uri-encoding</span>=<span class="string">UTF-8</span></span><br></pre></td></tr></table></figure>
+
+<p>2.可以另外创建.properties进行属性注入。这个并不会自动扫描，因此需要在你需要的类上添加@PropertySource注解。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@PropertySource(&quot;classpath: ***.properties&quot;)</span>    <span class="comment">//加载自定义的.properties文件</span></span><br></pre></td></tr></table></figure>
+
+<p>3.也可以使用@ConfigurationProperties注解进行属性注入。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@ConfigurationProperties(prefix = &quot;xxx&quot;)</span>        <span class="comment">//xxx为前缀</span></span><br></pre></td></tr></table></figure>
+
+<p>4.yml不会自动注入，需要添加2.3.中的注解。</p>
+<p>5.在需要不同的生成环境的时候，可以创建多个application-xx.properties。这时需要哪个就可以在application.properties中配置。</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">spring.profiles.active</span>=<span class="string">xx</span></span><br></pre></td></tr></table></figure>
+
+<h3 id=""><a href="#" class="headerlink" title=""></a></h3>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">小技巧</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/11/30/spring-boot%E5%B0%8F%E6%8A%80%E5%B7%A7/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
   
     <article id="post-深入理解java虚拟机第二章" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
@@ -816,82 +902,6 @@
 
 
   
-    <article id="post-spring实战4第14章" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/07/09/spring%E5%AE%9E%E6%88%984%E7%AC%AC14%E7%AB%A0/">spring实战4第14章</a>
-    </h1>
-  
-
-        
-        <a href="/2020/07/09/spring%E5%AE%9E%E6%88%984%E7%AC%AC14%E7%AB%A0/" class="archive-article-date">
-  	<time datetime="2020-07-09T12:15:45.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-09</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="第十四章，保护方法应用"><a href="#第十四章，保护方法应用" class="headerlink" title="第十四章，保护方法应用"></a>第十四章，保护方法应用</h2><p>此章讲解，使用注解保护方法，使用表达式实现方法级别的安全性</p>
-        
-          <a class="article-more-a" href="/2020/07/09/spring%E5%AE%9E%E6%88%984%E7%AC%AC14%E7%AB%A0/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">spring</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/07/09/spring%E5%AE%9E%E6%88%984%E7%AC%AC14%E7%AB%A0/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">Next &amp;raquo;</a>
@@ -986,6 +996,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">java</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">小技巧</a>
               </li>
              
               <li class="article-tag-list-item">
